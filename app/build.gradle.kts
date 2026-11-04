@@ -18,7 +18,7 @@ val keystoreProps = Properties().apply {
 
 android {
     namespace = "com.mantra.player"
-    compileSdk = 34
+    compileSdk = 36
 
     signingConfigs {
         if (!keystoreProps.isEmpty) {
@@ -34,9 +34,9 @@ android {
     defaultConfig {
         applicationId = "com.mantra.player"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        targetSdk = 36
+        versionCode = 4
+        versionName = "1.0.3"
 
         manifestPlaceholders["admobAppId"] = gradleProp("ADMOB_APP_ID", testAdmobAppId)
         buildConfigField("String", "ADMOB_NATIVE_ID", "\"${gradleProp("ADMOB_NATIVE_ID", testAdmobNativeId)}\"")
