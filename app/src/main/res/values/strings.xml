@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mantra</string>
+    <string name="eyebrow">Sacred chants</string>
+    <string name="status_idle">Tap a mantra to open the player. It keeps looping in the background until you stop it or pick another one.</string>
+    <string name="status_armed">Playing: %1$s · Tap the bar below to open the player</string>
+    <string name="selected">Now Playing</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="stop">Stop mantra</string>
+    <string name="play">Play mantra</string>
+    <string name="back">Back</string>
+    <string name="playback_failed">Could not start the mantra.</string>
+    <string name="notification_channel">Mantra playback</string>
+    <string name="notification_channel_desc">Keeps the selected mantra looping in the background.</string>
+    <string name="notification_playing">Looping in the background</string>
+    <string name="notification_paused">Paused</string>
+    <string name="now_playing_label">Now playing</string>
+    <string name="tap_to_open_player">Tap to open player</string>
+    <string name="player_status_playing">Looping · continues in background</string>
+    <string name="player_status_stopped">Stopped · tap play to start</string>
+    <string name="ad_label">Ad</string>
+    <string name="ad_advertisement">Advertisement</string>
+    <string name="ad_sponsored">Sponsored</string>
+    <string name="ad_learn_more">Learn more</string>
+    <string name="ad_toggle_sound">Toggle ad sound</string>
+</resources>

@@ -1,0 +1,12 @@
+{
+  "mode": "house",
+  "fallbackToAdmob": true,
+  "refreshSeconds": 60,
+  "house": {
+    "type": "image",
+    "mediaUrl": "http://127.0.0.1:8765/sponsor.png",
+    "clickUrl": "https://www.google.com/search?q=ganesh+puja+kit",
+    "headline": "Ganesh Puja Kit – 20% off this festive season",
+    "cta": "Shop now"
+  }
+}

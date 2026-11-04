@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Terms and Conditions · Mantra</title>
+  <meta name="description" content="Terms and Conditions for using the Mantra app.">
+  <meta name="theme-color" content="#120B06">
+  <style>
+    :root {
+      --bg: #120B06;
+      --bg-mid: #1C1108;
+      --card: #24150C;
+      --card-hi: #2E1B0E;
+      --saffron: #FF9933;
+      --saffron-dark: #E07A12;
+      --saffron-soft: rgba(255, 153, 51, 0.14);
+      --stroke: rgba(255, 153, 51, 0.22);
+      --cream: #FFF4E8;
+      --muted: #D9B896;
+      --ink: #1A1008;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Devanagari", sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--cream);
+      background:
+        radial-gradient(1200px 600px at 50% -200px, rgba(255, 153, 51, 0.20), transparent 70%),
+        linear-gradient(180deg, var(--bg-mid) 0%, var(--bg) 420px);
+      background-color: var(--bg);
+      min-height: 100vh;
+    }
+    a { color: var(--saffron); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color .2s; }
+    a:hover { border-bottom-color: var(--saffron); }
+
+    .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+
+    header { text-align: center; padding: 64px 0 36px; }
+    .om {
+      width: 88px; height: 88px; margin: 0 auto 20px;
+      display: grid; place-items: center;
+      font-size: 46px; line-height: 1; color: var(--ink);
+      background: radial-gradient(circle at 35% 30%, #FFC27A, var(--saffron) 55%, var(--saffron-dark));
+      border-radius: 50%;
+      box-shadow: 0 0 0 8px var(--saffron-soft), 0 12px 40px rgba(255, 153, 51, 0.35);
+    }
+    .eyebrow { margin: 0; font-size: 13px; letter-spacing: .22em; text-transform: uppercase; color: var(--saffron); font-weight: 700; }
+    h1 { margin: 8px 0 10px; font-size: clamp(32px, 6vw, 46px); line-height: 1.15; font-weight: 800; letter-spacing: -0.01em; }
+    .updated {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 999px;
+      background: var(--saffron-soft); border: 1px solid var(--stroke);
+      color: var(--muted); font-size: 14px;
+    }
+    .updated::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--saffron); }
+    .lead { max-width: 640px; margin: 22px auto 0; color: var(--muted); font-size: 17px; }
+
+    .divider { height: 1px; margin: 0 auto 36px; max-width: 860px; background: linear-gradient(90deg, transparent, var(--saffron), transparent); opacity: .55; }
+
+    nav.toc {
+      margin: 0 0 28px; padding: 20px 22px; border-radius: var(--radius);
+      background: var(--bg-mid); border: 1px solid var(--stroke);
+    }
+    nav.toc h2 { margin: 0 0 10px; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--saffron); }
+    nav.toc ol { margin: 0; padding: 0; list-style: none; counter-reset: toc; columns: 2 240px; column-gap: 28px; }
+    nav.toc li { counter-increment: toc; break-inside: avoid; padding: 3px 0; }
+    nav.toc li::before { content: counter(toc, decimal-leading-zero); color: var(--saffron); font-weight: 700; font-size: 13px; margin-right: 10px; }
+    nav.toc a { color: var(--cream); }
+    nav.toc a:hover { color: var(--saffron); }
+
+    section {
+      margin: 0 0 18px; padding: 26px 26px 20px; border-radius: var(--radius);
+      background: var(--card); border: 1px solid var(--stroke);
+    }
+    section h2 { display: flex; align-items: center; gap: 12px; margin: 0 0 12px; font-size: 21px; line-height: 1.3; }
+    section h2 .num {
+      flex: none; width: 34px; height: 34px; border-radius: 10px;
+      display: grid; place-items: center;
+      background: var(--saffron); color: var(--ink); font-size: 14px; font-weight: 800;
+    }
+    section h3 { margin: 18px 0 6px; font-size: 16px; color: var(--saffron); }
+    section p { margin: 0 0 12px; }
+    section ul { margin: 0 0 12px; padding-left: 0; list-style: none; }
+    section li { position: relative; padding-left: 22px; margin: 8px 0; }
+    section li::before { content: ""; position: absolute; left: 4px; top: .7em; width: 7px; height: 7px; border-radius: 50%; background: var(--saffron); }
+    .muted { color: var(--muted); }
+    .caps { font-size: 14px; color: var(--muted); }
+
+    .contact { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 6px; }
+    .contact a {
+      display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px;
+      background: var(--card-hi); border: 1px solid var(--stroke); color: var(--cream);
+      transition: transform .15s, border-color .15s;
+    }
+    .contact a:hover { transform: translateY(-2px); border-color: var(--saffron); }
+    .contact .ci { font-size: 22px; }
+    .contact small { display: block; color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+
+    footer { padding: 30px 0 48px; text-align: center; color: var(--muted); font-size: 14px; }
+    footer .links { display: flex; justify-content: center; gap: 22px; margin-bottom: 10px; flex-wrap: wrap; }
+    footer .credit { margin-top: 8px; font-size: 12px; opacity: .7; }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(18, 11, 6, 0.78);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--stroke);
+    }
+    .topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .brand { display: flex; align-items: center; gap: 10px; color: var(--cream); font-weight: 800; font-size: 17px; border: 0; }
+    .brand:hover { border: 0; }
+    .brand .mark {
+      width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+      font-size: 17px; color: var(--ink);
+      background: radial-gradient(circle at 35% 30%, #FFC27A, var(--saffron) 55%, var(--saffron-dark));
+    }
+    .topnav { display: flex; gap: 4px; }
+    .topnav a { color: var(--muted); padding: 6px 12px; border-radius: 999px; font-size: 14px; border: 0; transition: background .2s, color .2s; }
+    .topnav a:hover { color: var(--cream); background: var(--saffron-soft); }
+    .topnav a[aria-current="page"] { color: var(--ink); background: var(--saffron); font-weight: 700; }
+
+    @media (max-width: 560px) {
+      .brand .name { display: none; }
+      .topnav a { padding: 6px 10px; font-size: 13px; }
+      header { padding-top: 44px; }
+      section { padding: 20px 18px 14px; }
+    }
+    @media print {
+      body { background: #fff; color: #111; }
+      section, nav.toc { background: #fff; border-color: #ddd; }
+      .muted, .lead, .caps, footer { color: #444; }
+      .om { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="mark" aria-hidden="true">ॐ</span><span class="name">Mantra</span></a>
+      <nav class="topnav" aria-label="Site">
+        <a href="index.html">Home</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html" aria-current="page">Terms</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <div class="om" aria-hidden="true">ॐ</div>
+      <p class="eyebrow">Mantra App</p>
+      <h1>Terms and Conditions</h1>
+      <span class="updated">Last updated: October 7, 2026</span>
+      <p class="lead">Please read these terms carefully before using the Mantra app.</p>
+    </header>
+  </div>
+
+  <div class="divider"></div>
+
+  <main class="wrap">
+    <nav class="toc" aria-label="Contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#definitions">Interpretation &amp; definitions</a></li>
+        <li><a href="#acknowledgment">Acknowledgment</a></li>
+        <li><a href="#links">Links to other websites</a></li>
+        <li><a href="#termination">Termination</a></li>
+        <li><a href="#liability">Limitation of liability</a></li>
+        <li><a href="#disclaimer">"As is" disclaimer</a></li>
+        <li><a href="#law">Governing law &amp; disputes</a></li>
+        <li><a href="#severability">Severability &amp; waiver</a></li>
+        <li><a href="#translation">Translation</a></li>
+        <li><a href="#changes">Changes to these terms</a></li>
+        <li><a href="#contact">Contact us</a></li>
+      </ol>
+    </nav>
+
+    <section id="definitions">
+      <h2><span class="num">01</span>Interpretation &amp; definitions</h2>
+      <h3>Interpretation</h3>
+      <p>
+        Words with capitalised first letters have the meanings defined below. These definitions have the same
+        meaning whether they appear in singular or plural.
+      </p>
+      <h3>Definitions</h3>
+      <ul>
+        <li><strong>Application</strong> means the software program named <strong>Mantra</strong>, provided by the Company and downloaded by You on any electronic device.</li>
+        <li><strong>Application Store</strong> means the digital distribution service (Google Play Store or Apple App Store) from which the Application was downloaded.</li>
+        <li><strong>Affiliate</strong> means an entity that controls, is controlled by, or is under common control with a party, where "control" means ownership of 50% or more of the shares, equity interest or other voting securities.</li>
+        <li><strong>Country/State</strong> refers to Maharashtra, India.</li>
+        <li><strong>Company</strong> ("the Company", "We", "Us" or "Our") refers to Mantra.</li>
+        <li><strong>Device</strong> means any device that can access the Service, such as a computer, mobile phone or tablet.</li>
+        <li><strong>Service</strong> refers to the Application.</li>
+        <li><strong>Terms and Conditions</strong> ("Terms") means these Terms and Conditions, which form the entire agreement between You and the Company regarding the use of the Service.</li>
+        <li><strong>Third-Party Social Media Service</strong> means any services or content provided by a third party that is displayed, included, made available or linked to through the Service.</li>
+        <li><strong>You</strong> means the individual accessing or using the Service, or the company or other legal entity on whose behalf that individual is using the Service.</li>
+      </ul>
+    </section>
+
+    <section id="acknowledgment">
+      <h2><span class="num">02</span>Acknowledgment</h2>
+      <p>
+        These Terms govern the use of the Service and the agreement between You and the Company. They set out the
+        rights and obligations of all users of the Service.
+      </p>
+      <p>
+        Your access to and use of the Service is conditioned on Your acceptance of these Terms, which apply to all
+        visitors, users and others who use the Service. By using the Service You agree to be bound by these Terms.
+        If You disagree with any part of them, You may not use the Service.
+      </p>
+      <p>You represent that You are over the age of 18. The Company does not permit those under 18 to use the Service.</p>
+      <p>
+        Your use of the Service is also subject to our <a href="privacy.html">Privacy Policy</a>, which describes how
+        information is collected, used and disclosed. Please read it carefully before using the Service.
+      </p>
+    </section>
+
+    <section id="links">
+      <h2><span class="num">03</span>Links to other websites</h2>
+      <p>
+        The Service may contain links to third-party websites or services, including advertisements, that are not
+        owned or controlled by the Company. The Company has no control over, and assumes no responsibility for,
+        their content, privacy policies or practices, and shall not be liable for any damage or loss caused by
+        Your use of or reliance on any such content, goods or services.
+      </p>
+      <p>We strongly advise You to read the terms and privacy policies of any third-party websites or services You visit.</p>
+      <h3>Third-Party Social Media Services</h3>
+      <p>
+        The Service may display or link to content from Third-Party Social Media Services. The Company does not
+        endorse or assume responsibility for them, and Your use of them is governed by their own terms and privacy
+        policies.
+      </p>
+    </section>
+
+    <section id="termination">
+      <h2><span class="num">04</span>Termination</h2>
+      <p>
+        We may terminate or suspend Your access immediately, without prior notice or liability, for any reason
+        whatsoever, including if You breach these Terms. Upon termination, Your right to use the Service will cease
+        immediately.
+      </p>
+    </section>
+
+    <section id="liability">
+      <h2><span class="num">05</span>Limitation of liability</h2>
+      <p>
+        The entire liability of the Company and its suppliers under these Terms, and Your exclusive remedy, shall be
+        limited to the amount actually paid by You through the Service, or 100 USD if You have not purchased
+        anything through the Service.
+      </p>
+      <p class="caps">
+        To the maximum extent permitted by law, in no event shall the Company or its suppliers be liable for any
+        special, incidental, indirect or consequential damages whatsoever (including loss of profits, loss of data,
+        business interruption, personal injury or loss of privacy) arising out of or related to the use of or
+        inability to use the Service, even if advised of the possibility of such damages.
+      </p>
+      <p class="muted">
+        Some states do not allow these exclusions or limitations, so they may not apply to You. In such cases, each
+        party's liability will be limited to the greatest extent permitted by law.
+      </p>
+    </section>
+
+    <section id="disclaimer">
+      <h2><span class="num">06</span>"As is" and "as available" disclaimer</h2>
+      <p>
+        The Service is provided "AS IS" and "AS AVAILABLE", with all faults and defects and without warranty of any
+        kind. To the maximum extent permitted by law, the Company, on its own behalf and on behalf of its Affiliates,
+        licensors and service providers, disclaims all warranties, whether express, implied or statutory, including
+        warranties of merchantability, fitness for a particular purpose, title and non-infringement.
+      </p>
+      <p>The Company makes no warranty or representation that:</p>
+      <ul>
+        <li>the Service will meet Your requirements or achieve any intended results;</li>
+        <li>the Service will be compatible with other software or systems, or operate without interruption or errors;</li>
+        <li>any information or content provided through the Service is accurate, reliable or current;</li>
+        <li>the Service or its servers are free of viruses or other harmful components.</li>
+      </ul>
+      <p class="muted">
+        Some jurisdictions do not allow certain warranty exclusions, so some of the above may not apply to You. In
+        that case, they will be applied to the greatest extent enforceable under applicable law.
+      </p>
+    </section>
+
+    <section id="law">
+      <h2><span class="num">07</span>Governing law &amp; disputes</h2>
+      <p>
+        The laws of Maharashtra, India, excluding its conflict of law rules, govern these Terms and Your use of the
+        Service. Your use of the Application may also be subject to other local, state, national or international
+        laws.
+      </p>
+      <p>If You have any concern or dispute about the Service, You agree to first try to resolve it informally by contacting us.</p>
+    </section>
+
+    <section id="severability">
+      <h2><span class="num">08</span>Severability &amp; waiver</h2>
+      <h3>Severability</h3>
+      <p>
+        If any provision of these Terms is held to be unenforceable or invalid, it will be interpreted to accomplish
+        its objectives to the greatest extent possible, and the remaining provisions will continue in full force.
+      </p>
+      <h3>Waiver</h3>
+      <p>
+        Failing to exercise a right or require performance of an obligation under these Terms does not affect a
+        party's ability to do so later, and waiving a breach does not waive any later breach.
+      </p>
+    </section>
+
+    <section id="translation">
+      <h2><span class="num">09</span>Translation</h2>
+      <p>If these Terms are translated, the original English text shall prevail in case of a dispute.</p>
+    </section>
+
+    <section id="changes">
+      <h2><span class="num">10</span>Changes to these terms</h2>
+      <p>
+        We may modify or replace these Terms at any time. For material changes, we will make reasonable efforts to
+        give at least 30 days' notice before the new terms take effect. By continuing to use the Service after
+        changes take effect, You agree to the revised terms. If You do not agree, please stop using the Service.
+      </p>
+    </section>
+
+    <section id="contact">
+      <h2><span class="num">11</span>Contact us</h2>
+      <p>If You have any questions about these Terms and Conditions, You can contact us:</p>
+      <div class="contact">
+        <a href="mailto:rahulbangar115@gmail.com"><span class="ci">✉️</span><span><small>Email</small>rahulbangar115@gmail.com</span></a>
+        <a href="tel:+918624010015"><span class="ci">📞</span><span><small>Phone</small>+91 86240 10015</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms and Conditions</a>
+      <a href="mailto:rahulbangar115@gmail.com">Contact</a>
+    </div>
+    © 2026 Mantra. All rights reserved.
+    <div class="credit">Based on a template from the <a href="https://www.termsfeed.com/terms-conditions-generator/" target="_blank" rel="noopener">TermsFeed Terms and Conditions Generator</a>.</div>
+  </footer>
+</body>
+</html>

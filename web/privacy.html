@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy · Mantra</title>
+  <meta name="description" content="Privacy Policy for the Mantra app: what data is used, how ads work, and your choices.">
+  <meta name="theme-color" content="#120B06">
+  <style>
+    :root {
+      --bg: #120B06;
+      --bg-mid: #1C1108;
+      --card: #24150C;
+      --card-hi: #2E1B0E;
+      --saffron: #FF9933;
+      --saffron-dark: #E07A12;
+      --saffron-soft: rgba(255, 153, 51, 0.14);
+      --stroke: rgba(255, 153, 51, 0.22);
+      --cream: #FFF4E8;
+      --muted: #D9B896;
+      --ink: #1A1008;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Devanagari", sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--cream);
+      background:
+        radial-gradient(1200px 600px at 50% -200px, rgba(255, 153, 51, 0.20), transparent 70%),
+        linear-gradient(180deg, var(--bg-mid) 0%, var(--bg) 420px);
+      background-color: var(--bg);
+      min-height: 100vh;
+    }
+    a { color: var(--saffron); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color .2s; }
+    a:hover { border-bottom-color: var(--saffron); }
+
+    .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+
+    /* Header */
+    header { text-align: center; padding: 64px 0 36px; }
+    .om {
+      width: 88px; height: 88px; margin: 0 auto 20px;
+      display: grid; place-items: center;
+      font-size: 46px; line-height: 1; color: var(--ink);
+      background: radial-gradient(circle at 35% 30%, #FFC27A, var(--saffron) 55%, var(--saffron-dark));
+      border-radius: 50%;
+      box-shadow: 0 0 0 8px var(--saffron-soft), 0 12px 40px rgba(255, 153, 51, 0.35);
+    }
+    .eyebrow { margin: 0; font-size: 13px; letter-spacing: .22em; text-transform: uppercase; color: var(--saffron); font-weight: 700; }
+    h1 { margin: 8px 0 10px; font-size: clamp(32px, 6vw, 46px); line-height: 1.15; font-weight: 800; letter-spacing: -0.01em; }
+    .updated {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 999px;
+      background: var(--saffron-soft); border: 1px solid var(--stroke);
+      color: var(--muted); font-size: 14px;
+    }
+    .updated::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--saffron); }
+    .lead { max-width: 640px; margin: 22px auto 0; color: var(--muted); font-size: 17px; }
+
+    .divider { height: 1px; margin: 0 auto; max-width: 860px; background: linear-gradient(90deg, transparent, var(--saffron), transparent); opacity: .55; }
+
+    /* At a glance */
+    .glance { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 36px 0 28px; }
+    .tile {
+      padding: 18px; border-radius: var(--radius);
+      background: var(--card); border: 1px solid var(--stroke);
+    }
+    .tile .icon { font-size: 24px; }
+    .tile strong { display: block; margin: 6px 0 2px; font-size: 15px; }
+    .tile span { color: var(--muted); font-size: 14px; line-height: 1.5; display: block; }
+
+    /* Contents */
+    nav.toc {
+      margin: 0 0 28px; padding: 20px 22px; border-radius: var(--radius);
+      background: var(--bg-mid); border: 1px solid var(--stroke);
+    }
+    nav.toc h2 { margin: 0 0 10px; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--saffron); }
+    nav.toc ol { margin: 0; padding: 0; list-style: none; counter-reset: toc; columns: 2 240px; column-gap: 28px; }
+    nav.toc li { counter-increment: toc; break-inside: avoid; padding: 3px 0; }
+    nav.toc li::before { content: counter(toc, decimal-leading-zero); color: var(--saffron); font-weight: 700; font-size: 13px; margin-right: 10px; }
+    nav.toc a { color: var(--cream); }
+    nav.toc a:hover { color: var(--saffron); }
+
+    /* Sections */
+    section {
+      margin: 0 0 18px; padding: 26px 26px 20px; border-radius: var(--radius);
+      background: var(--card); border: 1px solid var(--stroke);
+    }
+    section h2 { display: flex; align-items: center; gap: 12px; margin: 0 0 12px; font-size: 21px; line-height: 1.3; }
+    section h2 .num {
+      flex: none; width: 34px; height: 34px; border-radius: 10px;
+      display: grid; place-items: center;
+      background: var(--saffron); color: var(--ink); font-size: 14px; font-weight: 800;
+    }
+    section h3 { margin: 18px 0 6px; font-size: 16px; color: var(--saffron); }
+    section p { margin: 0 0 12px; }
+    section ul { margin: 0 0 12px; padding-left: 0; list-style: none; }
+    section li { position: relative; padding-left: 22px; margin: 6px 0; }
+    section li::before { content: ""; position: absolute; left: 4px; top: .7em; width: 7px; height: 7px; border-radius: 50%; background: var(--saffron); }
+    .muted { color: var(--muted); }
+
+    .note {
+      margin: 14px 0 10px; padding: 14px 16px; border-radius: 12px;
+      background: var(--saffron-soft); border-left: 3px solid var(--saffron);
+      color: var(--cream); font-size: 15px;
+    }
+
+    table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; font-size: 15px; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--stroke); vertical-align: top; }
+    th { color: var(--saffron); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+    td:first-child { font-weight: 600; white-space: nowrap; }
+    .table-scroll { overflow-x: auto; }
+
+    .contact { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 6px; }
+    .contact a {
+      display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px;
+      background: var(--card-hi); border: 1px solid var(--stroke); color: var(--cream);
+      transition: transform .15s, border-color .15s;
+    }
+    .contact a:hover { transform: translateY(-2px); border-color: var(--saffron); }
+    .contact .ci { font-size: 22px; }
+    .contact small { display: block; color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+
+    footer { padding: 30px 0 48px; text-align: center; color: var(--muted); font-size: 14px; }
+    footer .links { display: flex; justify-content: center; gap: 22px; margin-bottom: 10px; flex-wrap: wrap; }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(18, 11, 6, 0.78);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--stroke);
+    }
+    .topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .brand { display: flex; align-items: center; gap: 10px; color: var(--cream); font-weight: 800; font-size: 17px; border: 0; }
+    .brand:hover { border: 0; }
+    .brand .mark {
+      width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+      font-size: 17px; color: var(--ink);
+      background: radial-gradient(circle at 35% 30%, #FFC27A, var(--saffron) 55%, var(--saffron-dark));
+    }
+    .topnav { display: flex; gap: 4px; }
+    .topnav a { color: var(--muted); padding: 6px 12px; border-radius: 999px; font-size: 14px; border: 0; transition: background .2s, color .2s; }
+    .topnav a:hover { color: var(--cream); background: var(--saffron-soft); }
+    .topnav a[aria-current="page"] { color: var(--ink); background: var(--saffron); font-weight: 700; }
+
+    @media (max-width: 560px) {
+      .brand .name { display: none; }
+      .topnav a { padding: 6px 10px; font-size: 13px; }
+      header { padding-top: 44px; }
+      section { padding: 20px 18px 14px; }
+      td:first-child { white-space: normal; }
+    }
+    @media print {
+      body { background: #fff; color: #111; }
+      section, .tile, nav.toc { background: #fff; border-color: #ddd; }
+      .muted, .lead, .tile span, footer { color: #444; }
+      .om { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="mark" aria-hidden="true">ॐ</span><span class="name">Mantra</span></a>
+      <nav class="topnav" aria-label="Site">
+        <a href="index.html">Home</a>
+        <a href="privacy.html" aria-current="page">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <div class="om" aria-hidden="true">ॐ</div>
+      <p class="eyebrow">Mantra App</p>
+      <h1>Privacy Policy</h1>
+      <span class="updated">Last updated: October 7, 2026</span>
+      <p class="lead">
+        Mantra lets you listen to sacred mantras in peace. We don't ask you to sign up, and we don't collect your
+        name, email or contacts. This page explains the little data that is used, mainly to show ads, and the
+        choices you have.
+      </p>
+    </header>
+  </div>
+
+  <div class="divider"></div>
+
+  <main class="wrap">
+    <div class="glance">
+      <div class="tile"><div class="icon">🙏</div><strong>No account needed</strong><span>No login, no sign-up, no personal profile.</span></div>
+      <div class="tile"><div class="icon">📱</div><strong>Stays on your phone</strong><span>Your mantra choice and settings are saved only on your device.</span></div>
+      <div class="tile"><div class="icon">📢</div><strong>Ads by Google</strong><span>Google AdMob shows ads and may use your device's advertising ID.</span></div>
+      <div class="tile"><div class="icon">🚫</div><strong>We never sell data</strong><span>We don't sell or rent any information about you.</span></div>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#about">About this policy</a></li>
+        <li><a href="#collect">Information we collect</a></li>
+        <li><a href="#ads">Advertising (Google AdMob)</a></li>
+        <li><a href="#sponsored">Our own sponsored ads</a></li>
+        <li><a href="#permissions">App permissions</a></li>
+        <li><a href="#sharing">Sharing &amp; selling</a></li>
+        <li><a href="#choices">Your choices &amp; rights</a></li>
+        <li><a href="#retention">Data retention &amp; deletion</a></li>
+        <li><a href="#children">Children</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#changes">Changes to this policy</a></li>
+        <li><a href="#contact">Contact us</a></li>
+      </ol>
+    </nav>
+
+    <section id="about">
+      <h2><span class="num">01</span>About this policy</h2>
+      <p>
+        This Privacy Policy applies to the <strong>Mantra</strong> Android app (the "App"), published by Mantra,
+        Maharashtra, India ("we", "us", "our"). By using the App you agree to this policy. Please also read our
+        <a href="terms.html">Terms and Conditions</a>.
+      </p>
+    </section>
+
+    <section id="collect">
+      <h2><span class="num">02</span>Information we collect</h2>
+      <h3>Information you give us</h3>
+      <p>None. The App has no accounts, forms or sign-in, and we never ask for your name, email, phone number or contacts.</p>
+
+      <h3>Information stored only on your device</h3>
+      <ul>
+        <li>The mantra you selected and whether it is playing, so playback can continue in the background.</li>
+        <li>How often our own sponsored ads were shown, so the same ad isn't repeated too often.</li>
+        <li>The latest ad settings downloaded by the App.</li>
+      </ul>
+      <p class="muted">This information never leaves your phone and is deleted when you uninstall the App.</p>
+
+      <h3>Information collected automatically by third parties</h3>
+      <p>
+        To show ads, Google AdMob may automatically collect information from your device. See
+        <a href="#ads">Advertising</a> below.
+      </p>
+    </section>
+
+    <section id="ads">
+      <h2><span class="num">03</span>Advertising (Google AdMob)</h2>
+      <p>
+        The App is free and supported by ads from <strong>Google AdMob</strong>, a service of Google LLC. To show,
+        measure and improve ads and to prevent fraud, Google may collect and process:
+      </p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Data</th><th>Why it is used</th></tr></thead>
+          <tbody>
+            <tr><td>Advertising ID</td><td>Showing relevant ads and limiting how often you see the same ad.</td></tr>
+            <tr><td>IP address</td><td>Approximate location (city or country level) and fraud prevention.</td></tr>
+            <tr><td>Device &amp; app info</td><td>Phone model, Android version, language and app version, so ads display correctly.</td></tr>
+            <tr><td>Ad interactions</td><td>Whether an ad was shown or tapped, for measurement and billing.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        <strong>Consent (EEA, UK and Switzerland):</strong> If you are in these regions, the App shows Google's
+        consent form before ads are loaded. You can accept, refuse or choose which purposes you allow. If you
+        refuse, Google may show limited, non-personalised ads.
+      </p>
+      <p>
+        Learn more:
+        <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">How Google uses information from apps that use its services</a>
+        and the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.
+      </p>
+    </section>
+
+    <section id="sponsored">
+      <h2><span class="num">04</span>Our own sponsored ads</h2>
+      <p>
+        Sometimes the App shows our own sponsored images or videos (for example, puja items or temple offers)
+        instead of Google ads. To do this, the App downloads an ad settings file and the ad images or videos from
+        our server.
+      </p>
+      <ul>
+        <li>Like any website, the server may briefly record your IP address and the time of the request in standard technical logs.</li>
+        <li>We do not use these logs to identify you, and we do not combine them with other data.</li>
+        <li>Tapping a sponsored ad opens the advertiser's website in your browser. That website has its own privacy policy.</li>
+      </ul>
+    </section>
+
+    <section id="permissions">
+      <h2><span class="num">05</span>App permissions</h2>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Permission</th><th>Why we need it</th></tr></thead>
+          <tbody>
+            <tr><td>Internet &amp; network state</td><td>To load ads and the sponsored ad settings.</td></tr>
+            <tr><td>Notifications</td><td>To show playback controls (play, stop, next) while a mantra plays.</td></tr>
+            <tr><td>Foreground service (media)</td><td>To keep the mantra playing when the screen is off or you switch apps.</td></tr>
+            <tr><td>Wake lock</td><td>To stop the phone from interrupting playback while it sleeps.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted">The App does not access your location, camera, microphone, contacts, photos or files.</p>
+    </section>
+
+    <section id="sharing">
+      <h2><span class="num">06</span>Sharing &amp; selling</h2>
+      <ul>
+        <li>We do <strong>not</strong> sell, rent or trade any information about you.</li>
+        <li>Data is processed only by Google AdMob as described above, under Google's own policies.</li>
+        <li>We may disclose information if the law requires it, for example in response to a valid legal request.</li>
+      </ul>
+    </section>
+
+    <section id="choices">
+      <h2><span class="num">07</span>Your choices &amp; rights</h2>
+      <ul>
+        <li><strong>Limit personalised ads:</strong> Android Settings → Google → Ads → turn on "Opt out of Ads Personalisation", or delete your advertising ID.</li>
+        <li><strong>Change consent (EEA/UK):</strong> Clear the App's data or reinstall it, and the consent form will appear again.</li>
+        <li><strong>Remove all App data:</strong> Uninstall the App, or go to Settings → Apps → Mantra → Storage → Clear data.</li>
+        <li><strong>Your rights:</strong> Depending on where you live (for example under the GDPR or India's DPDP Act 2023), you may have the right to access, correct or delete your data. Contact us and we will help.</li>
+      </ul>
+    </section>
+
+    <section id="retention">
+      <h2><span class="num">08</span>Data retention &amp; deletion</h2>
+      <p>
+        Data saved on your phone stays there until you clear the App's data or uninstall it. We do not keep any
+        personal data on our servers. Technical server logs, if any, are deleted automatically within a short
+        period. Data collected by Google is kept according to
+        <a href="https://policies.google.com/technologies/retention" target="_blank" rel="noopener">Google's retention policy</a>.
+      </p>
+    </section>
+
+    <section id="children">
+      <h2><span class="num">09</span>Children</h2>
+      <p>
+        The App is not directed at children under 13, and we do not knowingly collect personal information from
+        them. If you believe a child has provided personal information through the App, please contact us and we
+        will take appropriate steps.
+      </p>
+    </section>
+
+    <section id="security">
+      <h2><span class="num">10</span>Security</h2>
+      <p>
+        Ads and ad settings are loaded over secure HTTPS connections. No method of transmission or storage is
+        100% secure, but we take reasonable steps to protect the App and its users.
+      </p>
+    </section>
+
+    <section id="changes">
+      <h2><span class="num">11</span>Changes to this policy</h2>
+      <p>
+        We may update this policy from time to time. The new version will be posted on this page with a new
+        "Last updated" date. Continuing to use the App after changes means you accept the updated policy.
+      </p>
+    </section>
+
+    <section id="contact">
+      <h2><span class="num">12</span>Contact us</h2>
+      <p>Questions about this Privacy Policy or your data? We're happy to help.</p>
+      <div class="contact">
+        <a href="mailto:rahulbangar115@gmail.com"><span class="ci">✉️</span><span><small>Email</small>rahulbangar115@gmail.com</span></a>
+        <a href="tel:+918624010015"><span class="ci">📞</span><span><small>Phone</small>+91 86240 10015</span></a>
+      </div>
+      <div class="note">Mantra · Maharashtra, India</div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms and Conditions</a>
+      <a href="mailto:rahulbangar115@gmail.com">Contact</a>
+    </div>
+    © 2026 Mantra. All rights reserved.
+  </footer>
+</body>
+</html>

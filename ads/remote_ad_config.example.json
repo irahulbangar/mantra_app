@@ -1,0 +1,33 @@
+{
+  "mode": "house",
+  "fallbackToAdmob": true,
+  "refreshSeconds": 60,
+  "defaults": {
+    "status": "live",
+    "priority": 0,
+    "durationSeconds": 30,
+    "repeatDelaySeconds": 60,
+    "maxPlays": 0,
+    "maxPlaysPerDay": 0
+  },
+  "ads": [
+    {
+      "id": "puja_kit_oct",
+      "status": "live",
+      "priority": 10,
+      "type": "image",
+      "mediaUrl": "https://example.com/mantra/sponsor_banner.jpg",
+      "clickUrl": "https://example.com/sponsor",
+      "headline": "Puja samagri delivered to your home",
+      "cta": "Order now",
+      "durationSeconds": 20,
+      "repeatDelaySeconds": 300,
+      "maxPlays": 10,
+      "maxPlaysPerDay": 3,
+      "startAt": "2026-10-01T00:00:00+05:30",
+      "endAt": "2026-10-31",
+      "dailyStart": "05:00",
+      "dailyEnd": "10:00"
+    }
+  ]
+}

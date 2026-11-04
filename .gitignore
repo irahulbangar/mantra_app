@@ -1,0 +1,23 @@
+*.iml
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/captures
+.externalNativeBuild
+.cxx
+build/
+**/build/
+*.apk
+*.ap_
+*.aab
+output.json
+
+# Release signing key (back these up somewhere safe; losing them blocks Play updates)
+keystore.properties
+*.jks
+*.keystore
+
+# Ad manager backups
+ads/local/backups/
+node_modules/

@@ -1,0 +1,12 @@
+{
+  "mode": "house",
+  "fallbackToAdmob": true,
+  "refreshSeconds": 60,
+  "house": {
+    "type": "video",
+    "mediaUrl": "https://storage.googleapis.com/exoplayer-test-media-0/BigBuckBunny_320x180.mp4",
+    "clickUrl": "https://www.google.com/search?q=temple+donation",
+    "headline": "Support your local temple – donate online",
+    "cta": "Donate"
+  }
+}
