@@ -110,3 +110,5 @@ fi
 
 adb shell am start -n "$PACKAGE_NAME/.MainActivity" >/dev/null
 echo "Done. Release build installed. Your phone is a test device, so it should show \"Test Ad\" labels."
+
+# Website url: https://irahulbangar.github.io/mantra_app/index.html
