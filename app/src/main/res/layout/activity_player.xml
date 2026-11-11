@@ -7,12 +7,12 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <!-- Top 60%: mantra visual and controls -->
+    <!-- Top 70%: mantra visual and controls -->
     <LinearLayout
         android:id="@+id/playerSection"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"
+        android:layout_weight="7"
         android:orientation="vertical"
         android:paddingHorizontal="16dp"
         android:paddingTop="8dp"
@@ -168,12 +168,12 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Bottom 40%: ad slot -->
+    <!-- Bottom 30%: ad slot -->
     <FrameLayout
         android:id="@+id/adSection"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="3"
         android:background="@drawable/ad_section_bg"
         android:padding="10dp">
 
