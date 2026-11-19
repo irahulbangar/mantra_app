@@ -14,6 +14,7 @@ import androidx.media3.datasource.RawResourceDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import com.mantra.player.ads.AdSlotController
 import com.mantra.player.ads.AdsManager
+import com.mantra.player.ads.InterstitialAds
 import com.mantra.player.databinding.ActivityPlayerBinding
 
 class PlayerActivity : AppCompatActivity() {
@@ -38,18 +39,23 @@ class PlayerActivity : AppCompatActivity() {
             ?: Mantra.ALL.first()
 
         binding.backButton.setOnClickListener { finish() }
-        binding.prevButton.setOnClickListener { switchTo(Mantra.previousOf(mantra.id)) }
-        binding.nextButton.setOnClickListener { switchTo(Mantra.nextOf(mantra.id)) }
+        binding.prevButton.setOnClickListener {
+            switchTo(Mantra.previousOf(mantra.id), showInterstitial = true)
+        }
+        binding.nextButton.setOnClickListener {
+            switchTo(Mantra.nextOf(mantra.id), showInterstitial = true)
+        }
         binding.playStopButton.setOnClickListener {
             if (MantraControls.isPlaying(this, mantra.id)) {
                 MantraControls.stop(this)
+                render()
             } else {
-                switchTo(mantra)
+                switchTo(mantra, showInterstitial = false)
             }
-            render()
         }
 
         AdsManager.gatherConsent(this)
+        AdsManager.whenReady { InterstitialAds.preload(this) }
         adSlot = AdSlotController(this, binding.adContainer, binding.adPlaceholder) { visible ->
             binding.adSection.isVisible = visible
         }
@@ -94,12 +100,19 @@ class PlayerActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun switchTo(target: Mantra) {
-        mantra = target
-        if (!MantraControls.play(this, target.id)) {
-            Toast.makeText(this, R.string.playback_failed, Toast.LENGTH_SHORT).show()
+    private fun switchTo(target: Mantra, showInterstitial: Boolean) {
+        val apply = {
+            mantra = target
+            if (!MantraControls.play(this, target.id)) {
+                Toast.makeText(this, R.string.playback_failed, Toast.LENGTH_SHORT).show()
+            }
+            render()
         }
-        render()
+        if (showInterstitial) {
+            InterstitialAds.showIfReady(this, onContinue = apply)
+        } else {
+            apply()
+        }
     }
 
     /** Follows changes made from the notification (Previous / Next / Stop). */

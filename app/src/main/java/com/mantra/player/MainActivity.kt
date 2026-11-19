@@ -11,6 +11,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.mantra.player.ads.AdsManager
+import com.mantra.player.ads.AppOpenAds
+import com.mantra.player.ads.InterstitialAds
 import com.mantra.player.ads.RemoteAdConfigRepository
 import com.mantra.player.databinding.ActivityMainBinding
 import com.mantra.player.databinding.ItemMantraBinding
@@ -52,6 +54,10 @@ class MainActivity : AppCompatActivity() {
             render()
         }
         AdsManager.gatherConsent(this)
+        AdsManager.whenReady {
+            InterstitialAds.preload(this)
+            AppOpenAds.preload()
+        }
         RemoteAdConfigRepository.refresh(this)
         render()
     }
