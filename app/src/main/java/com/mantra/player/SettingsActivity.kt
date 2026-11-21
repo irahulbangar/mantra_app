@@ -133,7 +133,8 @@ class SettingsActivity : AppCompatActivity() {
         listOf(
             LocaleHelper.SYSTEM,
             LocaleHelper.ENGLISH,
-            LocaleHelper.HINDI
+            LocaleHelper.HINDI,
+            LocaleHelper.MARATHI
         ).forEach { tag ->
             val chip = Chip(this).apply {
                 id = android.view.View.generateViewId()

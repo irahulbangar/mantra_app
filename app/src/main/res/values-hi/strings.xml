@@ -49,6 +49,7 @@
     <string name="language_system">सिस्टम डिफ़ॉल्ट</string>
     <string name="language_english">English</string>
     <string name="language_hindi">हिंदी</string>
+    <string name="language_marathi">मराठी</string>
     <string name="table_clock">टेबल घड़ी</string>
     <string name="settings_nightstand_section">टेबल घड़ी</string>
     <string name="settings_nightstand_desc">चार्ज करते समय बड़ी घड़ी और देवता की तस्वीर दिखाएँ।</string>

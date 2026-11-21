@@ -49,6 +49,7 @@
     <string name="language_system">System default</string>
     <string name="language_english">English</string>
     <string name="language_hindi">हिंदी</string>
+    <string name="language_marathi">मराठी</string>
     <string name="table_clock">Table Clock</string>
     <string name="settings_nightstand_section">Table Clock</string>
     <string name="settings_nightstand_desc">Show a large bedside clock with a god photo while charging.</string>

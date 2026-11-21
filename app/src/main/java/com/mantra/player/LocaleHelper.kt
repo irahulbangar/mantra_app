@@ -11,6 +11,7 @@ object LocaleHelper {
     const val SYSTEM = "system"
     const val ENGLISH = "en"
     const val HINDI = "hi"
+    const val MARATHI = "mr"
 
     fun languageTag(context: Context): String {
         return prefs(context).getString(KEY_TAG, SYSTEM) ?: SYSTEM
@@ -29,6 +30,7 @@ object LocaleHelper {
         return when (tag) {
             ENGLISH -> context.getString(R.string.language_english)
             HINDI -> context.getString(R.string.language_hindi)
+            MARATHI -> context.getString(R.string.language_marathi)
             else -> context.getString(R.string.language_system)
         }
     }
