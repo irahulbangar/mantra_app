@@ -26,4 +26,8 @@
     <string name="ad_sponsored">Sponsored</string>
     <string name="ad_learn_more">Learn more</string>
     <string name="ad_toggle_sound">Toggle ad sound</string>
+    <string name="share">Share app</string>
+    <string name="share_message">Listen to sacred chants with Mantra:\nhttps://play.google.com/store/apps/details?id=com.mantra.player&amp;pcampaignid=web_share</string>
+    <string name="share_chooser">Share Mantra via</string>
 </resources>
+

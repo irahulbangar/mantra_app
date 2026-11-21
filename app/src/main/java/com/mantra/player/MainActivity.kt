@@ -1,6 +1,7 @@
 package com.mantra.player
 
 import android.Manifest
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
@@ -11,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+
 import com.mantra.player.ads.AdsManager
 import com.mantra.player.ads.AppOpenAds
 import com.mantra.player.ads.InterstitialAds
@@ -55,6 +57,7 @@ class MainActivity : AppCompatActivity() {
             MantraControls.stop(this)
             render()
         }
+        binding.shareButton.setOnClickListener { shareApp() }
         AdsManager.gatherConsent(this)
         AdsManager.whenReady {
             InterstitialAds.preload(this)
@@ -118,6 +121,14 @@ class MainActivity : AppCompatActivity() {
             item.badge.visibility = if (isSelected) View.VISIBLE else View.GONE
             item.image.strokeWidth = (if (isSelected) 3f else 2f) * resources.displayMetrics.density
         }
+    }
+
+    private fun shareApp() {
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message))
+        }
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_chooser)))
     }
 
     private fun needsNotificationPermission(): Boolean {
