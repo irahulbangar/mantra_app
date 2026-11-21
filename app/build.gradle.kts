@@ -37,8 +37,8 @@ android {
         applicationId = "com.mantra.player"
         minSdk = 26
         targetSdk = 36
-        versionCode = 9
-        versionName = "1.0.8"
+        versionCode = 20
+        versionName = "1.2.0"
 
         manifestPlaceholders["admobAppId"] = gradleProp("ADMOB_APP_ID", testAdmobAppId)
         buildConfigField("String", "ADMOB_NATIVE_ID", "\"${gradleProp("ADMOB_NATIVE_ID", testAdmobNativeId)}\"")
@@ -86,6 +86,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.lifecycle:lifecycle-process:2.7.0")
+    implementation("androidx.media:media:1.7.0")
     implementation("androidx.media3:media3-exoplayer:1.3.1")
     implementation("androidx.media3:media3-ui:1.3.1")
     implementation("com.google.android.gms:play-services-ads:23.0.0")

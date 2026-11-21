@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -14,6 +15,7 @@ import androidx.media3.datasource.RawResourceDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import com.mantra.player.ads.AdSlotController
 import com.mantra.player.ads.AdsManager
+import com.mantra.player.ads.AppOpenAds
 import com.mantra.player.ads.InterstitialAds
 import com.mantra.player.databinding.ActivityPlayerBinding
 
@@ -33,6 +35,7 @@ class PlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         mantra = Mantra.byId(intent.getStringExtra(EXTRA_MANTRA_ID))
             ?: Mantra.byId(prefs.mantraId)
@@ -55,7 +58,10 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         AdsManager.gatherConsent(this)
-        AdsManager.whenReady { InterstitialAds.preload(this) }
+        AdsManager.whenReady {
+            InterstitialAds.preload(this)
+            AppOpenAds.preload()
+        }
         adSlot = AdSlotController(this, binding.adContainer, binding.adPlaceholder) { visible ->
             binding.adSection.isVisible = visible
         }

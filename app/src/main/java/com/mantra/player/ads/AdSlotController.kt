@@ -89,7 +89,10 @@ class AdSlotController(
     fun onResume() {
         resumed = true
         housePlayer?.play()
-        if (nextAdvanceAtMs != 0L) {
+        // Returning from background/app-open often leaves an empty slot — reload immediately.
+        if (nativeAd == null && !showingHouse) {
+            advance()
+        } else if (nextAdvanceAtMs != 0L) {
             postAdvance((nextAdvanceAtMs - System.currentTimeMillis()).coerceAtLeast(0L))
         }
         schedulePoll()

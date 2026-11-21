@@ -15,17 +15,16 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.mantra.player.BuildConfig
-import java.util.Date
 
 /**
- * Shows an app-open ad when the user returns to the app from the background.
- * Skips cold-start noise, consent, and recent interstitial/app-open shows.
+ * Shows an app-open ad when the user returns from the background.
+ * Preloads while backgrounded so an ad is usually ready on return.
  */
 object AppOpenAds : Application.ActivityLifecycleCallbacks, DefaultLifecycleObserver {
     private const val TAG = "AppOpenAds"
     private const val AD_TIMEOUT_MS = 4 * 60 * 60 * 1000L
-    /** Soft cap: return-to-app ads stay rare so listening is not interrupted often. */
-    private const val MIN_INTERVAL_MS = 8 * 60 * 1000L
+    /** Short enough that return-to-app ads usually show, without every quick switch. */
+    private const val MIN_INTERVAL_MS = 2 * 60 * 1000L
 
     private val main = Handler(Looper.getMainLooper())
     private var application: Application? = null
@@ -36,6 +35,7 @@ object AppOpenAds : Application.ActivityLifecycleCallbacks, DefaultLifecycleObse
     private var loading = false
     private var showing = false
     private var started = false
+    private var movedToBackground = false
 
     fun start(app: Application) {
         if (started) return
@@ -51,17 +51,38 @@ object AppOpenAds : Application.ActivityLifecycleCallbacks, DefaultLifecycleObse
         lastShownAtMs = System.currentTimeMillis()
     }
 
-    override fun onStart(owner: LifecycleOwner) {
-        val activity = currentActivity ?: return
-        showIfAvailable(activity)
+    override fun onStop(owner: LifecycleOwner) {
+        movedToBackground = true
+        // Load while the user is away so return has an ad ready.
+        preload(force = true)
     }
 
-    fun preload() {
+    override fun onStart(owner: LifecycleOwner) {
+        if (!movedToBackground) {
+            preload()
+            return
+        }
+        movedToBackground = false
+        // Post so Activity.onStart/onResume have set currentActivity.
+        main.post {
+            val activity = currentActivity
+            if (activity == null || activity.isFinishing) {
+                preload(force = true)
+                return@post
+            }
+            showIfAvailable(activity)
+        }
+    }
+
+    fun preload(force: Boolean = false) {
         val app = application ?: return
         val unitId = BuildConfig.ADMOB_APP_OPEN_ID
-        if (unitId.isBlank() || loading || isAdAvailable()) return
+        if (unitId.isBlank()) return
+        if (!force && (loading || isAdAvailable())) return
+        if (force && loading) return
         AdsManager.whenReady {
-            if (!AdsManager.canRequestAds(app) || loading || isAdAvailable()) return@whenReady
+            if (!AdsManager.canRequestAds(app)) return@whenReady
+            if (loading || isAdAvailable()) return@whenReady
             loading = true
             AppOpenAd.load(
                 app,
@@ -71,12 +92,16 @@ object AppOpenAds : Application.ActivityLifecycleCallbacks, DefaultLifecycleObse
                     override fun onAdLoaded(ad: AppOpenAd) {
                         loading = false
                         appOpenAd = ad
-                        loadTimeMs = Date().time
+                        loadTimeMs = System.currentTimeMillis()
+                        Log.i(TAG, "app-open loaded")
                     }
 
                     override fun onAdFailedToLoad(error: LoadAdError) {
                         loading = false
+                        appOpenAd = null
                         Log.w(TAG, "load failed: ${error.code} ${error.message}")
+                        // Retry later so return visits can still get an ad.
+                        main.postDelayed({ preload(force = true) }, 30_000L)
                     }
                 }
             )
@@ -88,10 +113,13 @@ object AppOpenAds : Application.ActivityLifecycleCallbacks, DefaultLifecycleObse
             showing ||
             InterstitialAds.isShowing ||
             activity.isFinishing ||
-            !isAdAvailable() ||
             System.currentTimeMillis() - lastShownAtMs < MIN_INTERVAL_MS
         ) {
             preload()
+            return
+        }
+        if (!isAdAvailable()) {
+            preload(force = true)
             return
         }
 
@@ -102,13 +130,13 @@ object AppOpenAds : Application.ActivityLifecycleCallbacks, DefaultLifecycleObse
             override fun onAdDismissedFullScreenContent() {
                 showing = false
                 lastShownAtMs = System.currentTimeMillis()
-                preload()
+                preload(force = true)
             }
 
             override fun onAdFailedToShowFullScreenContent(error: AdError) {
                 showing = false
                 Log.w(TAG, "show failed: ${error.message}")
-                preload()
+                preload(force = true)
             }
 
             override fun onAdShowedFullScreenContent() {
@@ -120,7 +148,7 @@ object AppOpenAds : Application.ActivityLifecycleCallbacks, DefaultLifecycleObse
 
     private fun isAdAvailable(): Boolean {
         if (appOpenAd == null) return false
-        val fresh = Date().time - loadTimeMs < AD_TIMEOUT_MS
+        val fresh = System.currentTimeMillis() - loadTimeMs < AD_TIMEOUT_MS
         if (!fresh) {
             appOpenAd = null
             return false
