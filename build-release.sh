@@ -53,33 +53,6 @@ EOF
   echo "==> Created mantra-release.jks and keystore.properties. BACK UP BOTH FILES NOW."
 fi
 
-MP3_DIR="$ROOT/mp3"
-RAW_DIR="$ROOT/app/src/main/res/raw"
-ACTIVE_MP3S=(
-  gayatri_mantra
-  om_gan_ganpataye_namo_namah
-  om_namah_shivaya
-  om_tryambakam_yajamahe_sugandhim_pushtivardhanam
-  hanuman_chalisa
-  santan_gopal_mantra
-  nishank_hoi_re_mana
-  shri_dattatreya_kavach
-  swami_samarth_mantra
-  hanuman_mantra
-  sai_mantra
-  lakshmi_kuber
-  balaji_mantra
-  shani_mantra
-)
-if [[ -d "$MP3_DIR" ]]; then
-  echo "==> Syncing mp3/ into app raw resources..."
-  mkdir -p "$RAW_DIR"
-  for name in "${ACTIVE_MP3S[@]}"; do
-    [[ -f "$MP3_DIR/$name.mp3" ]] || { echo "Error: missing $MP3_DIR/$name.mp3" >&2; exit 1; }
-    cp -f "$MP3_DIR/$name.mp3" "$RAW_DIR/$name.mp3"
-  done
-fi
-
 echo "==> Building signed release APK and Play bundle..."
 ./gradlew assembleRelease bundleRelease
 

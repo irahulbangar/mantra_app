@@ -43,6 +43,13 @@ data class Mantra(
                 R.drawable.god_mrityunjaya
             ),
             Mantra(
+                "mahalaxmi",
+                "महालक्ष्मी मंत्र",
+                "Mahalaxmi Mantra",
+                R.raw.mahalaxmi_mantra,
+                R.drawable.god_mahalaxmi
+            ),
+            Mantra(
                 "santan_gopal",
                 "संतान गोपाल मंत्र",
                 "Santan Gopal Mantra",
@@ -90,6 +97,13 @@ data class Mantra(
                 "Shani Mantra",
                 R.raw.shani_mantra,
                 R.drawable.god_shani
+            ),
+            Mantra(
+                "shiv_tandav",
+                "शिव तांडव स्तोत्र",
+                "Shiv Tandav Stotra",
+                R.raw.shiv_tandav_stotra,
+                R.drawable.god_shiv_tandav
             ),
             Mantra(
                 "hanuman",

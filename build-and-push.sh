@@ -68,38 +68,6 @@ if [[ ! -x "$ROOT_DIR/gradlew" ]]; then
   exit 1
 fi
 
-MP3_DIR="$ROOT_DIR/mp3"
-RAW_DIR="$ROOT_DIR/app/src/main/res/raw"
-ACTIVE_MP3S=(
-  gayatri_mantra
-  om_gan_ganpataye_namo_namah
-  om_namah_shivaya
-  om_tryambakam_yajamahe_sugandhim_pushtivardhanam
-  hanuman_chalisa
-  santan_gopal_mantra
-  nishank_hoi_re_mana
-  shri_dattatreya_kavach
-  swami_samarth_mantra
-  hanuman_mantra
-  sai_mantra
-  lakshmi_kuber
-  balaji_mantra
-  shani_mantra
-)
-
-if [[ -d "$MP3_DIR" ]]; then
-  echo "==> Syncing mp3/ into app raw resources..."
-  mkdir -p "$RAW_DIR"
-  for name in "${ACTIVE_MP3S[@]}"; do
-    src="$MP3_DIR/$name.mp3"
-    if [[ ! -f "$src" ]]; then
-      echo "Error: missing $src" >&2
-      exit 1
-    fi
-    cp -f "$src" "$RAW_DIR/$name.mp3"
-  done
-fi
-
 echo "==> Building debug APK..."
 "$ROOT_DIR/gradlew" assembleDebug
 
