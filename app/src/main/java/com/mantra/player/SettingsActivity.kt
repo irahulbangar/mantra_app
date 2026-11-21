@@ -42,7 +42,10 @@ class SettingsActivity : AppCompatActivity() {
 
         bindLanguageChips()
         bindSleepChips()
-        bindRemoveAds()
+        binding.removeAdsSection.isVisible = SHOW_REMOVE_ADS
+        if (SHOW_REMOVE_ADS) {
+            bindRemoveAds()
+        }
         binding.startNightstandButton.setOnClickListener {
             NightstandLauncher.open(this)
         }
@@ -50,6 +53,7 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        if (!SHOW_REMOVE_ADS) return
         premiumPrefs.registerListener(premiumListener)
         BillingManager.restore { refreshRemoveAdsUi() }
         refreshRemoveAdsUi()
@@ -57,7 +61,9 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        premiumPrefs.unregisterListener(premiumListener)
+        if (SHOW_REMOVE_ADS) {
+            premiumPrefs.unregisterListener(premiumListener)
+        }
         super.onStop()
     }
 
@@ -195,6 +201,9 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     companion object {
+        /** Flip to true once Play payment profile and remove_ads product are ready. */
+        private const val SHOW_REMOVE_ADS = false
+
         fun open(context: Context) {
             context.startActivity(Intent(context, SettingsActivity::class.java))
         }
