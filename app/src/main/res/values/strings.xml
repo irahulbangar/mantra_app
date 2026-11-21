@@ -32,6 +32,18 @@
     <string name="share_chooser">Share Mantra via</string>
     <string name="settings">Settings</string>
     <string name="settings_title">Settings</string>
+    <string name="settings_remove_ads_section">Remove Ads</string>
+    <string name="settings_remove_ads_hint">One-time purchase. Removes all ads from the app forever.</string>
+    <string name="settings_remove_ads">Remove Ads</string>
+    <string name="settings_remove_ads_price">Remove Ads · %1$s</string>
+    <string name="settings_ads_removed">Ads removed</string>
+    <string name="settings_restore_purchases">Restore purchases</string>
+    <string name="billing_purchase_success">Ads removed. Thank you!</string>
+    <string name="billing_purchase_canceled">Purchase canceled</string>
+    <string name="billing_purchase_error">Could not complete purchase. Try again.</string>
+    <string name="billing_already_owned">Ads are already removed on this account</string>
+    <string name="billing_restore_success">Purchases restored</string>
+    <string name="billing_restore_none">No purchases found for this account</string>
     <string name="settings_language">Language</string>
     <string name="settings_language_hint">Choose app language</string>
     <string name="language_system">System default</string>
@@ -41,7 +53,7 @@
     <string name="settings_nightstand_section">Table Clock</string>
     <string name="settings_nightstand_desc">Show a large bedside clock with a god photo while charging.</string>
     <string name="settings_nightstand_enable">Open Table Clock when charging</string>
-    <string name="settings_nightstand_enable_hint">Opens automatically when this app is open and charging</string>
+    <string name="settings_nightstand_enable_hint">Opens 10 seconds after charging, between 9 PM and 6 AM, when this app is open</string>
     <string name="settings_night_mode">Night Mode</string>
     <string name="settings_night_mode_hint">Warm red tint for low-light viewing</string>
     <string name="nightstand_charging">Charging</string>

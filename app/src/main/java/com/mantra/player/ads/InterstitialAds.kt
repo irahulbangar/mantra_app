@@ -33,8 +33,11 @@ object InterstitialAds {
     fun preload(context: Context) {
         val unitId = BuildConfig.ADMOB_INTERSTITIAL_ID
         if (unitId.isBlank() || loading || ad != null) return
+        if (!AdsManager.adsEnabled(context)) return
         AdsManager.whenReady {
-            if (!AdsManager.canRequestAds(context) || loading || ad != null) return@whenReady
+            if (!AdsManager.adsEnabled(context) || !AdsManager.canRequestAds(context) || loading || ad != null) {
+                return@whenReady
+            }
             loading = true
             InterstitialAd.load(
                 context.applicationContext,
@@ -61,6 +64,10 @@ object InterstitialAds {
      * Always runs [onContinue] afterward (immediately if no ad is shown).
      */
     fun showIfReady(activity: Activity, onContinue: () -> Unit) {
+        if (!AdsManager.adsEnabled(activity)) {
+            onContinue()
+            return
+        }
         val interstitial = ad
         val now = System.currentTimeMillis()
         if (

@@ -8,6 +8,7 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
+import com.mantra.player.PremiumPreferences
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
@@ -15,6 +16,10 @@ import java.util.concurrent.atomic.AtomicBoolean
  * then initializes the Mobile Ads SDK and releases anyone waiting to load ads.
  */
 object AdsManager {
+    /** False when the user has purchased Remove Ads. */
+    fun adsEnabled(context: Context): Boolean =
+        !PremiumPreferences(context).adsRemoved
+
     /** Hashed IDs printed by the Ads SDK in logcat ("setTestDeviceIds(...)"); add more phones here. */
     private val TEST_DEVICE_IDS = listOf(
         "28B9D800D4E085EEE9E19CB8147310B4", // Rahul's phone, debug build

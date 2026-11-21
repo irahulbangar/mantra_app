@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.os.BatteryManager
@@ -32,7 +33,14 @@ class NightstandActivity : AppCompatActivity() {
     private lateinit var adSlot: AdSlotController
     private val nightPrefs by lazy { NightstandPreferences(this) }
     private val playbackPrefs by lazy { MantraPreferences(this) }
+    private val premiumPrefs by lazy { PremiumPreferences(this) }
     private val handler = Handler(Looper.getMainLooper())
+
+    private val premiumListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+        if (key == PremiumPreferences.KEY_ADS_REMOVED) {
+            runOnUiThread { applyAdsVisibility() }
+        }
+    }
 
     private var sleepEndsAtMs: Long = 0L
     private var autoDimmed = false
@@ -96,11 +104,11 @@ class NightstandActivity : AppCompatActivity() {
             nativeLayoutRes = R.layout.ad_native_landscape,
             mediaAspectRatio = NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_LANDSCAPE
         ) { visible ->
-            binding.adSection.isVisible = visible
+            binding.adSection.isVisible = AdsManager.adsEnabled(this) && visible
         }
         val mantra = Mantra.byId(playbackPrefs.mantraId) ?: Mantra.ALL.first()
         adSlot.setMantra(mantra.id)
-        adSlot.start()
+        applyAdsVisibility()
 
         val sleepMinutes = nightPrefs.sleepMinutes
         if (sleepMinutes > 0) {
@@ -112,6 +120,7 @@ class NightstandActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        premiumPrefs.registerListener(premiumListener)
         val filter = IntentFilter().apply {
             addAction(Intent.ACTION_POWER_DISCONNECTED)
             addAction(Intent.ACTION_BATTERY_CHANGED)
@@ -126,11 +135,14 @@ class NightstandActivity : AppCompatActivity() {
             updateChargingStatus(sticky)
         }
         handler.post(clockTick)
+        applyAdsVisibility()
     }
 
     override fun onResume() {
         super.onResume()
-        adSlot.onResume()
+        if (AdsManager.adsEnabled(this)) {
+            adSlot.onResume()
+        }
     }
 
     override fun onPause() {
@@ -139,6 +151,7 @@ class NightstandActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
+        premiumPrefs.unregisterListener(premiumListener)
         handler.removeCallbacks(clockTick)
         try {
             unregisterReceiver(batteryReceiver)
@@ -146,6 +159,13 @@ class NightstandActivity : AppCompatActivity() {
             // Already unregistered.
         }
         super.onStop()
+    }
+
+    private fun applyAdsVisibility() {
+        if (!AdsManager.adsEnabled(this)) {
+            binding.adSection.isVisible = false
+        }
+        adSlot.start()
     }
 
     override fun onDestroy() {

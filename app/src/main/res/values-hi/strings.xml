@@ -32,6 +32,18 @@
     <string name="share_chooser">मंत्र साझा करें</string>
     <string name="settings">सेटिंग्स</string>
     <string name="settings_title">सेटिंग्स</string>
+    <string name="settings_remove_ads_section">विज्ञापन हटाएँ</string>
+    <string name="settings_remove_ads_hint">एक बार खरीदें। ऐप से सभी विज्ञापन हमेशा के लिए हट जाएँगे।</string>
+    <string name="settings_remove_ads">विज्ञापन हटाएँ</string>
+    <string name="settings_remove_ads_price">विज्ञापन हटाएँ · %1$s</string>
+    <string name="settings_ads_removed">विज्ञापन हटा दिए गए</string>
+    <string name="settings_restore_purchases">खरीदारी पुनर्स्थापित करें</string>
+    <string name="billing_purchase_success">विज्ञापन हटा दिए गए। धन्यवाद!</string>
+    <string name="billing_purchase_canceled">खरीदारी रद्द हुई</string>
+    <string name="billing_purchase_error">खरीदारी पूरी नहीं हो सकी। फिर कोशिश करें।</string>
+    <string name="billing_already_owned">इस खाते पर विज्ञापन पहले से हटाए जा चुके हैं</string>
+    <string name="billing_restore_success">खरीदारी पुनर्स्थापित हुई</string>
+    <string name="billing_restore_none">इस खाते की कोई खरीदारी नहीं मिली</string>
     <string name="settings_language">भाषा</string>
     <string name="settings_language_hint">ऐप की भाषा चुनें</string>
     <string name="language_system">सिस्टम डिफ़ॉल्ट</string>
@@ -41,7 +53,7 @@
     <string name="settings_nightstand_section">टेबल घड़ी</string>
     <string name="settings_nightstand_desc">चार्ज करते समय बड़ी घड़ी और देवता की तस्वीर दिखाएँ।</string>
     <string name="settings_nightstand_enable">चार्ज पर टेबल घड़ी खोलें</string>
-    <string name="settings_nightstand_enable_hint">ऐप खुला हो और फोन चार्ज हो तो अपने आप खुलती है</string>
+    <string name="settings_nightstand_enable_hint">रात 9 बजे से सुबह 6 बजे तक, ऐप खुला हो और चार्ज लगे तो 10 सेकंड बाद अपने आप खुलती है</string>
     <string name="settings_night_mode">नाइट मोड</string>
     <string name="settings_night_mode_hint">रात में देखने के लिए लाल रंग की रोशनी</string>
     <string name="nightstand_charging">चार्ज हो रहा है</string>

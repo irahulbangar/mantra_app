@@ -83,6 +83,11 @@ class AdSlotController(
     }
 
     fun start() {
+        if (!AdsManager.adsEnabled(activity)) {
+            clear()
+            onSlotVisibilityChanged(false)
+            return
+        }
         config = RemoteAdConfigRepository.current(activity)
         advance()
         fetchConfig()
@@ -125,6 +130,11 @@ class AdSlotController(
     /** Decides what the slot shows next. Any in-flight AdMob request becomes stale. */
     private fun advance() {
         if (released) return
+        if (!AdsManager.adsEnabled(activity)) {
+            clear()
+            onSlotVisibilityChanged(false)
+            return
+        }
         slotVersion++
         handler.removeCallbacks(advanceRunnable)
         nextAdvanceAtMs = 0L
@@ -168,7 +178,12 @@ class AdSlotController(
 
         AdsManager.whenReady {
             if (stale()) return@whenReady
-            if (!AdsManager.canRequestAds(activity)) {
+            if (!AdsManager.adsEnabled(activity) || !AdsManager.canRequestAds(activity)) {
+                if (!AdsManager.adsEnabled(activity)) {
+                    clear()
+                    onSlotVisibilityChanged(false)
+                    return@whenReady
+                }
                 if (nativeAd == null) showPlaceholder()
                 scheduleAdvance(nextCheck(refreshSeconds))
                 return@whenReady

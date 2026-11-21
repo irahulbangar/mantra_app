@@ -78,10 +78,11 @@ object AppOpenAds : Application.ActivityLifecycleCallbacks, DefaultLifecycleObse
         val app = application ?: return
         val unitId = BuildConfig.ADMOB_APP_OPEN_ID
         if (unitId.isBlank()) return
+        if (!AdsManager.adsEnabled(app)) return
         if (!force && (loading || isAdAvailable())) return
         if (force && loading) return
         AdsManager.whenReady {
-            if (!AdsManager.canRequestAds(app)) return@whenReady
+            if (!AdsManager.adsEnabled(app) || !AdsManager.canRequestAds(app)) return@whenReady
             if (loading || isAdAvailable()) return@whenReady
             loading = true
             AppOpenAd.load(
@@ -109,6 +110,7 @@ object AppOpenAds : Application.ActivityLifecycleCallbacks, DefaultLifecycleObse
     }
 
     private fun showIfAvailable(activity: Activity) {
+        if (!AdsManager.adsEnabled(activity)) return
         if (
             showing ||
             InterstitialAds.isShowing ||

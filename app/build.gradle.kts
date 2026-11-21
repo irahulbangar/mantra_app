@@ -45,6 +45,11 @@ android {
         buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"${gradleProp("ADMOB_INTERSTITIAL_ID", "")}\"")
         buildConfigField("String", "ADMOB_APP_OPEN_ID", "\"${gradleProp("ADMOB_APP_OPEN_ID", "")}\"")
         buildConfigField("String", "REMOTE_AD_CONFIG_URL", "\"${gradleProp("REMOTE_AD_CONFIG_URL", "")}\"")
+        buildConfigField(
+            "String",
+            "REMOVE_ADS_PRODUCT_ID",
+            "\"${gradleProp("REMOVE_ADS_PRODUCT_ID", "remove_ads")}\""
+        )
     }
 
     buildTypes {
@@ -91,4 +96,5 @@ dependencies {
     implementation("androidx.media3:media3-ui:1.3.1")
     implementation("com.google.android.gms:play-services-ads:23.0.0")
     implementation("com.google.android.ump:user-messaging-platform:2.2.0")
+    implementation("com.android.billingclient:billing-ktx:7.1.1")
 }

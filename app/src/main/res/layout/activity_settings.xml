@@ -63,6 +63,53 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:letterSpacing="0.08"
+                android:text="@string/settings_remove_ads_section"
+                android:textAllCaps="true"
+                android:textColor="@color/brand"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/settings_remove_ads_hint"
+                android:textColor="@color/muted"
+                android:textSize="16sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/removeAdsButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/btn_primary_bg"
+                android:minHeight="56dp"
+                android:text="@string/settings_remove_ads"
+                android:textAllCaps="false"
+                android:textColor="@color/ink"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/restorePurchasesButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_outline_bg"
+                android:minHeight="48dp"
+                android:text="@string/settings_restore_purchases"
+                android:textAllCaps="false"
+                android:textColor="@color/cream"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:letterSpacing="0.08"
                 android:text="@string/settings_language"
                 android:textAllCaps="true"
                 android:textColor="@color/brand"

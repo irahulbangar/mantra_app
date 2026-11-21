@@ -22,6 +22,7 @@ import com.mantra.player.databinding.ActivityPlayerBinding
 class PlayerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPlayerBinding
     private val prefs by lazy { MantraPreferences(this) }
+    private val premiumPrefs by lazy { PremiumPreferences(this) }
     private lateinit var adSlot: AdSlotController
     private var mantra: Mantra = Mantra.ALL.first()
     private var visualPlayer: ExoPlayer? = null
@@ -29,6 +30,12 @@ class PlayerActivity : AppCompatActivity() {
 
     private val prefsListener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
         runOnUiThread { syncWithPlayback() }
+    }
+
+    private val premiumListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+        if (key == PremiumPreferences.KEY_ADS_REMOVED) {
+            runOnUiThread { applyAdsVisibility() }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,10 +71,13 @@ class PlayerActivity : AppCompatActivity() {
             AppOpenAds.preload()
         }
         adSlot = AdSlotController(this, binding.adContainer, binding.adPlaceholder) { visible ->
-            binding.adSection.isVisible = visible
+            binding.adSection.isVisible = AdsManager.adsEnabled(this) && visible
         }
         render()
-        adSlot.start()
+        applyAdsVisibility()
+        if (AdsManager.adsEnabled(this)) {
+            adSlot.start()
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -81,13 +91,17 @@ class PlayerActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         prefs.registerListener(prefsListener)
+        premiumPrefs.registerListener(premiumListener)
         syncWithPlayback()
+        applyAdsVisibility()
     }
 
     override fun onResume() {
         super.onResume()
         visualPlayer?.play()
-        adSlot.onResume()
+        if (AdsManager.adsEnabled(this)) {
+            adSlot.onResume()
+        }
     }
 
     override fun onPause() {
@@ -98,7 +112,17 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onStop() {
         prefs.unregisterListener(prefsListener)
+        premiumPrefs.unregisterListener(premiumListener)
         super.onStop()
+    }
+
+    private fun applyAdsVisibility() {
+        if (!AdsManager.adsEnabled(this)) {
+            binding.adSection.isVisible = false
+            adSlot.start() // clears slot when ads are disabled
+        } else {
+            adSlot.start()
+        }
     }
 
     override fun onDestroy() {
