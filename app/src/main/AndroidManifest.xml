@@ -8,6 +8,11 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <!-- Nightstand uses landscape, but the app must remain installable on portrait-only devices. -->
+    <uses-feature
+        android:name="android.hardware.screen.landscape"
+        android:required="false" />
+
     <application
         android:name=".MantraApp"
         android:allowBackup="true"
