@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://irahulbangar.github.io/mantra_app/sitemap.xml
