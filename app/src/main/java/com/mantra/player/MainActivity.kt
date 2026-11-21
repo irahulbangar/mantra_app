@@ -57,7 +57,9 @@ class MainActivity : AppCompatActivity() {
             MantraControls.stop(this)
             render()
         }
+        binding.settingsButton.setOnClickListener { SettingsActivity.open(this) }
         binding.shareButton.setOnClickListener { shareApp() }
+        binding.tableClockButton.setOnClickListener { NightstandLauncher.open(this) }
         AdsManager.gatherConsent(this)
         AdsManager.whenReady {
             InterstitialAds.preload(this)

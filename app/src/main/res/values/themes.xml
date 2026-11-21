@@ -11,4 +11,11 @@
         <item name="android:windowBackground">@color/bg</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
+
+    <style name="Theme.Mantra.Nightstand" parent="Theme.Mantra">
+        <item name="android:statusBarColor">@android:color/black</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>

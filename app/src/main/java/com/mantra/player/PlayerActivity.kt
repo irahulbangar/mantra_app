@@ -42,6 +42,7 @@ class PlayerActivity : AppCompatActivity() {
             ?: Mantra.ALL.first()
 
         binding.backButton.setOnClickListener { finish() }
+        binding.tableClockButton.setOnClickListener { NightstandLauncher.open(this) }
         binding.prevButton.setOnClickListener {
             switchTo(Mantra.previousOf(mantra.id), showInterstitial = true)
         }

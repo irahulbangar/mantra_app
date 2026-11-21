@@ -43,6 +43,18 @@
         </LinearLayout>
 
         <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_circle_outline"
+            android:contentDescription="@string/settings"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_settings"
+            app:tint="@color/brand" />
+
+        <ImageButton
             android:id="@+id/shareButton"
             android:layout_width="44dp"
             android:layout_height="44dp"
@@ -61,17 +73,35 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/header_glow_line" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/tableClockButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/btn_primary_bg"
+        android:minHeight="56dp"
+        android:text="@string/table_clock"
+        android:textAllCaps="false"
+        android:textColor="@color/ink"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:backgroundTint="@null"
+        app:icon="@drawable/ic_table_clock"
+        app:iconGravity="textStart"
+        app:iconPadding="10dp"
+        app:iconTint="@color/ink" />
+
     <TextView
         android:id="@+id/status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/status_background"
         android:lineSpacingExtra="3dp"
         android:padding="14dp"
         android:text="@string/status_idle"
         android:textColor="@color/cream"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 
     <ScrollView
         android:id="@+id/mantraScroll"

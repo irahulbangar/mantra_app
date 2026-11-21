@@ -44,8 +44,27 @@
                 android:text="@string/now_playing_label"
                 android:textAllCaps="true"
                 android:textColor="@color/brand"
-                android:textSize="11sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/tableClockButton"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:background="@drawable/btn_outline_bg"
+                android:minHeight="48dp"
+                android:paddingHorizontal="12dp"
+                android:text="@string/table_clock"
+                android:textAllCaps="false"
+                android:textColor="@color/cream"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null"
+                app:icon="@drawable/ic_table_clock"
+                app:iconGravity="textStart"
+                app:iconPadding="6dp"
+                app:iconSize="18dp"
+                app:iconTint="@color/brand" />
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView

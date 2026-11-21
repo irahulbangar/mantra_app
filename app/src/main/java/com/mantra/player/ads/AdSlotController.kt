@@ -40,6 +40,8 @@ class AdSlotController(
     private val activity: Activity,
     private val container: FrameLayout,
     private val placeholder: View,
+    private val nativeLayoutRes: Int = R.layout.ad_native,
+    private val mediaAspectRatio: Int = NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_ANY,
     private val onSlotVisibilityChanged: (Boolean) -> Unit
 ) {
     private val handler = Handler(Looper.getMainLooper())
@@ -200,7 +202,7 @@ class AdSlotController(
                 .withNativeAdOptions(
                     NativeAdOptions.Builder()
                         .setVideoOptions(VideoOptions.Builder().setStartMuted(true).build())
-                        .setMediaAspectRatio(NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_ANY)
+                        .setMediaAspectRatio(mediaAspectRatio)
                         .build()
                 )
                 .build()
@@ -211,7 +213,7 @@ class AdSlotController(
     private fun showNative(ad: NativeAd) {
         clear()
         nativeAd = ad
-        val view = activity.layoutInflater.inflate(R.layout.ad_native, container, false) as NativeAdView
+        val view = activity.layoutInflater.inflate(nativeLayoutRes, container, false) as NativeAdView
         val headline = view.findViewById<TextView>(R.id.ad_headline)
         val body = view.findViewById<TextView>(R.id.ad_body)
         val cta = view.findViewById<TextView>(R.id.ad_cta)
@@ -219,7 +221,10 @@ class AdSlotController(
 
         headline.text = ad.headline
         view.headlineView = headline
-        view.mediaView = view.findViewById<MediaView>(R.id.ad_media)
+
+        val mediaView = view.findViewById<MediaView>(R.id.ad_media)
+        view.mediaView = mediaView
+        ad.mediaContent?.let { mediaView.mediaContent = it }
 
         body.text = ad.body
         body.isVisible = !ad.body.isNullOrBlank()
@@ -235,7 +240,13 @@ class AdSlotController(
         view.iconView = icon
 
         view.setNativeAd(ad)
-        container.addView(view)
+        container.addView(
+            view,
+            FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
+        )
         placeholder.isVisible = false
     }
 

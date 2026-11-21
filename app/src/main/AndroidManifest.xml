@@ -38,6 +38,18 @@
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity" />
 
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".NightstandActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.Mantra.Nightstand" />
+
         <service
             android:name=".MantraPlaybackService"
             android:exported="false"

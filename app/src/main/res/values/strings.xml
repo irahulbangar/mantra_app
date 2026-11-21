@@ -12,6 +12,7 @@
     <string name="pause">Pause</string>
     <string name="resume">Resume</string>
     <string name="back">Back</string>
+    <string name="exit">Exit</string>
     <string name="playback_failed">Could not start the mantra.</string>
     <string name="notification_channel">Now playing</string>
     <string name="notification_channel_desc">Media controls for sacred chants playing in the background.</string>
@@ -29,5 +30,30 @@
     <string name="share">Share app</string>
     <string name="share_message">Listen to sacred chants with Mantra:\nhttps://play.google.com/store/apps/details?id=com.mantra.player&amp;pcampaignid=web_share</string>
     <string name="share_chooser">Share Mantra via</string>
+    <string name="settings">Settings</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_hint">Choose app language</string>
+    <string name="language_system">System default</string>
+    <string name="language_english">English</string>
+    <string name="language_hindi">हिंदी</string>
+    <string name="table_clock">Table Clock</string>
+    <string name="settings_nightstand_section">Table Clock</string>
+    <string name="settings_nightstand_desc">Show a large bedside clock with a god photo while charging.</string>
+    <string name="settings_nightstand_enable">Open Table Clock when charging</string>
+    <string name="settings_nightstand_enable_hint">Opens automatically when this app is open and charging</string>
+    <string name="settings_night_mode">Night Mode</string>
+    <string name="settings_night_mode_hint">Warm red tint for low-light viewing</string>
+    <string name="nightstand_charging">Charging</string>
+    <string name="nightstand_charging_percent">Charging · %1$d%%</string>
+    <string name="nightstand_charged">Charged · %1$d%%</string>
+    <string name="nightstand_battery_percent">Battery · %1$d%%</string>
+    <string name="nightstand_on_battery">On battery</string>
+    <string name="settings_sleep_timer">Sleep timer</string>
+    <string name="settings_sleep_timer_hint">Stops chanting and closes Table Clock when time is up</string>
+    <string name="settings_start_nightstand">Start Table Clock</string>
+    <string name="sleep_timer_off">Off</string>
+    <string name="sleep_timer_minutes">%1$d min</string>
+    <string name="nightstand_god_image">Deity image</string>
+    <string name="nightstand_sleep_remaining">Sleep · %1$d:%2$02d</string>
 </resources>
-
