@@ -54,6 +54,7 @@ object BillingManager : PurchasesUpdatedListener {
             .enablePendingPurchases(
                 PendingPurchasesParams.newBuilder().enableOneTimeProducts().build()
             )
+            .enableAutoServiceReconnection()
             .build()
         client = billing
         connectAndSync()
@@ -72,7 +73,10 @@ object BillingManager : PurchasesUpdatedListener {
     }
 
     fun formattedPrice(): String? {
-        val offer = productDetails?.oneTimePurchaseOfferDetails ?: return null
+        val details = productDetails ?: return null
+        val offer = details.oneTimePurchaseOfferDetailsList?.firstOrNull()
+            ?: details.oneTimePurchaseOfferDetails
+            ?: return null
         return offer.formattedPrice
     }
 
@@ -93,14 +97,19 @@ object BillingManager : PurchasesUpdatedListener {
                     )
                 )
                 .build()
-            billing.queryProductDetailsAsync(params) { result, detailsList ->
+            billing.queryProductDetailsAsync(params) { result, productDetailsResult ->
                 main.post {
                     if (result.responseCode != BillingClient.BillingResponseCode.OK) {
                         Log.w(TAG, "product details failed: ${result.debugMessage}")
                         onResult(null)
                         return@post
                     }
-                    productDetails = detailsList.firstOrNull()
+                    productDetails = productDetailsResult.productDetailsList.firstOrNull()
+                    if (productDetails == null &&
+                        productDetailsResult.unfetchedProductList.isNotEmpty()
+                    ) {
+                        Log.w(TAG, "product unfetched: $productId")
+                    }
                     onResult(productDetails)
                 }
             }
@@ -182,14 +191,15 @@ object BillingManager : PurchasesUpdatedListener {
             onResult(PurchaseResult.ERROR)
             return
         }
+        val offerToken = details.oneTimePurchaseOfferDetailsList?.firstOrNull()?.offerToken
+            ?: details.oneTimePurchaseOfferDetails?.offerToken
+        val productParams = BillingFlowParams.ProductDetailsParams.newBuilder()
+            .setProductDetails(details)
+        if (!offerToken.isNullOrBlank()) {
+            productParams.setOfferToken(offerToken)
+        }
         val params = BillingFlowParams.newBuilder()
-            .setProductDetailsParamsList(
-                listOf(
-                    BillingFlowParams.ProductDetailsParams.newBuilder()
-                        .setProductDetails(details)
-                        .build()
-                )
-            )
+            .setProductDetailsParamsList(listOf(productParams.build()))
             .build()
         val launchResult = billing.launchBillingFlow(activity, params)
         if (launchResult.responseCode != BillingClient.BillingResponseCode.OK) {

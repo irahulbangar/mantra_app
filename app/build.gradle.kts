@@ -37,8 +37,8 @@ android {
         applicationId = "com.mantra.player"
         minSdk = 26
         targetSdk = 36
-        versionCode = 20
-        versionName = "1.2.0"
+        versionCode = 22
+        versionName = "1.2.2"
 
         manifestPlaceholders["admobAppId"] = gradleProp("ADMOB_APP_ID", testAdmobAppId)
         buildConfigField("String", "ADMOB_NATIVE_ID", "\"${gradleProp("ADMOB_NATIVE_ID", testAdmobNativeId)}\"")
@@ -96,5 +96,6 @@ dependencies {
     implementation("androidx.media3:media3-ui:1.3.1")
     implementation("com.google.android.gms:play-services-ads:23.0.0")
     implementation("com.google.android.ump:user-messaging-platform:2.2.0")
-    implementation("com.android.billingclient:billing-ktx:7.1.1")
+    // Plain billing (not billing-ktx): ktx 8.3+ needs Kotlin 2.2; app is on 2.0.
+    implementation("com.android.billingclient:billing:8.0.0")
 }
