@@ -13,21 +13,21 @@ object LocaleHelper {
     const val HINDI = "hi"
     const val MARATHI = "mr"
 
-    fun languageTag(context: Context): String {
-        return prefs(context).getString(KEY_TAG, SYSTEM) ?: SYSTEM
-    }
+    fun languageTag(context: Context): String =
+        normalize(prefs(context).getString(KEY_TAG, SYSTEM) ?: SYSTEM)
 
     fun applyStoredLocale(context: Context) {
         applyLanguageTag(languageTag(context))
     }
 
     fun setLanguageTag(context: Context, tag: String) {
-        prefs(context).edit().putString(KEY_TAG, tag).apply()
-        applyLanguageTag(tag)
+        val normalized = normalize(tag)
+        prefs(context).edit().putString(KEY_TAG, normalized).commit()
+        applyLanguageTag(normalized)
     }
 
     fun displayName(context: Context, tag: String): String {
-        return when (tag) {
+        return when (normalize(tag)) {
             ENGLISH -> context.getString(R.string.language_english)
             HINDI -> context.getString(R.string.language_hindi)
             MARATHI -> context.getString(R.string.language_marathi)
@@ -35,13 +35,32 @@ object LocaleHelper {
         }
     }
 
+    /**
+     * Exact language tags matching resource folders:
+     * values-hi → "hi", values-mr → "mr", values → "en".
+     */
     private fun applyLanguageTag(tag: String) {
-        val locales = if (tag == SYSTEM || tag.isBlank()) {
-            LocaleListCompat.getEmptyLocaleList()
-        } else {
-            LocaleListCompat.forLanguageTags(tag)
+        val locales = when (normalize(tag)) {
+            ENGLISH -> LocaleListCompat.forLanguageTags(ENGLISH)
+            HINDI -> LocaleListCompat.forLanguageTags(HINDI)
+            MARATHI -> LocaleListCompat.forLanguageTags(MARATHI)
+            else -> LocaleListCompat.getEmptyLocaleList()
         }
         AppCompatDelegate.setApplicationLocales(locales)
+    }
+
+    private fun normalize(tag: String): String {
+        val t = tag.trim().lowercase()
+        return when {
+            t.isEmpty() || t == SYSTEM -> SYSTEM
+            t == ENGLISH || t.startsWith("en-") || t.startsWith("en_") -> ENGLISH
+            t == HINDI || t.startsWith("hi-") || t.startsWith("hi_") -> HINDI
+            t == MARATHI || t.startsWith("mr-") || t.startsWith("mr_") -> MARATHI
+            // Legacy mistaken region tags still map correctly
+            t == "hi-in" -> HINDI
+            t == "mr-in" -> MARATHI
+            else -> SYSTEM
+        }
     }
 
     private fun prefs(context: Context) =

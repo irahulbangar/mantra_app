@@ -37,8 +37,8 @@ android {
         applicationId = "com.mantra.player"
         minSdk = 26
         targetSdk = 36
-        versionCode = 24
-        versionName = "1.2.4"
+        versionCode = 25
+        versionName = "1.2.5"
 
         manifestPlaceholders["admobAppId"] = gradleProp("ADMOB_APP_ID", testAdmobAppId)
         buildConfigField("String", "ADMOB_NATIVE_ID", "\"${gradleProp("ADMOB_NATIVE_ID", testAdmobNativeId)}\"")

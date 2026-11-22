@@ -128,40 +128,44 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun bindLanguageChips() {
-        binding.languageChips.removeAllViews()
+        val group = binding.languageChips
+        group.setOnCheckedStateChangeListener(null)
+        group.removeAllViews()
+
+        // Stable chip IDs so checked-state callbacks cannot mix Hindi/Marathi up.
+        val options = listOf(
+            R.id.chip_lang_system to LocaleHelper.SYSTEM,
+            R.id.chip_lang_english to LocaleHelper.ENGLISH,
+            R.id.chip_lang_hindi to LocaleHelper.HINDI,
+            R.id.chip_lang_marathi to LocaleHelper.MARATHI
+        )
         val selected = LocaleHelper.languageTag(this)
-        listOf(
-            LocaleHelper.SYSTEM,
-            LocaleHelper.ENGLISH,
-            LocaleHelper.HINDI,
-            LocaleHelper.MARATHI
-        ).forEach { tag ->
+
+        options.forEach { (chipId, languageTag) ->
             val chip = Chip(this).apply {
-                id = android.view.View.generateViewId()
-                text = LocaleHelper.displayName(this@SettingsActivity, tag)
+                id = chipId
+                text = LocaleHelper.displayName(this@SettingsActivity, languageTag)
+                // Use setTag(Object) — do not assign `tag = …` inside apply (shadows View.tag).
+                setTag(languageTag)
                 isCheckable = true
-                isChecked = tag == selected
+                isChecked = languageTag == selected
                 textSize = 16f
                 setTextColor(
                     ContextCompat.getColorStateList(this@SettingsActivity, R.color.chip_sleep_text)
                 )
                 chipBackgroundColor =
                     ContextCompat.getColorStateList(this@SettingsActivity, R.color.chip_sleep_bg)
-                setOnClickListener {
-                    if (LocaleHelper.languageTag(this@SettingsActivity) == tag) return@setOnClickListener
-                    LocaleHelper.setLanguageTag(this@SettingsActivity, tag)
-                    syncLanguageSelection(tag)
-                }
             }
-            chip.tag = tag
-            binding.languageChips.addView(chip)
+            group.addView(chip)
         }
-    }
 
-    private fun syncLanguageSelection(selectedTag: String) {
-        for (i in 0 until binding.languageChips.childCount) {
-            val chip = binding.languageChips.getChildAt(i) as? Chip ?: continue
-            chip.isChecked = (chip.tag as? String) == selectedTag
+        group.setOnCheckedStateChangeListener { _, checkedIds ->
+            val checkedId = checkedIds.firstOrNull() ?: return@setOnCheckedStateChangeListener
+            val chip = group.findViewById<Chip>(checkedId) ?: return@setOnCheckedStateChangeListener
+            val languageTag = chip.tag as? String ?: return@setOnCheckedStateChangeListener
+            if (LocaleHelper.languageTag(this) == languageTag) return@setOnCheckedStateChangeListener
+            // AppCompat recreates activities after setApplicationLocales — do not also recreate().
+            LocaleHelper.setLanguageTag(this, languageTag)
         }
     }
 

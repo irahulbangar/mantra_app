@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="chip_lang_system" type="id" />
+    <item name="chip_lang_english" type="id" />
+    <item name="chip_lang_hindi" type="id" />
+    <item name="chip_lang_marathi" type="id" />
+</resources>
