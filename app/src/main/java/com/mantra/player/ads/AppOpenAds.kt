@@ -25,6 +25,8 @@ object AppOpenAds : Application.ActivityLifecycleCallbacks, DefaultLifecycleObse
     private const val AD_TIMEOUT_MS = 4 * 60 * 60 * 1000L
     /** Short enough that return-to-app ads usually show, without every quick switch. */
     private const val MIN_INTERVAL_MS = 2 * 60 * 1000L
+    private const val MAX_LOAD_RETRIES = 3
+    private const val RETRY_BASE_MS = 30_000L
 
     private val main = Handler(Looper.getMainLooper())
     private var application: Application? = null
@@ -36,6 +38,8 @@ object AppOpenAds : Application.ActivityLifecycleCallbacks, DefaultLifecycleObse
     private var showing = false
     private var started = false
     private var movedToBackground = false
+    private var failedLoads = 0
+    private var retryScheduled = false
 
     fun start(app: Application) {
         if (started) return
@@ -53,6 +57,8 @@ object AppOpenAds : Application.ActivityLifecycleCallbacks, DefaultLifecycleObse
 
     override fun onStop(owner: LifecycleOwner) {
         movedToBackground = true
+        // Fresh start for the retry budget each time the user leaves.
+        failedLoads = 0
         // Load while the user is away so return has an ad ready.
         preload(force = true)
     }
@@ -92,6 +98,7 @@ object AppOpenAds : Application.ActivityLifecycleCallbacks, DefaultLifecycleObse
                 object : AppOpenAd.AppOpenAdLoadCallback() {
                     override fun onAdLoaded(ad: AppOpenAd) {
                         loading = false
+                        failedLoads = 0
                         appOpenAd = ad
                         loadTimeMs = System.currentTimeMillis()
                         Log.i(TAG, "app-open loaded")
@@ -100,9 +107,18 @@ object AppOpenAds : Application.ActivityLifecycleCallbacks, DefaultLifecycleObse
                     override fun onAdFailedToLoad(error: LoadAdError) {
                         loading = false
                         appOpenAd = null
+                        failedLoads++
                         Log.w(TAG, "load failed: ${error.code} ${error.message}")
-                        // Retry later so return visits can still get an ad.
-                        main.postDelayed({ preload(force = true) }, 30_000L)
+                        // Back off and give up after a few tries: endless retries while the phone sits
+                        // charging overnight flood AdMob with no-fill requests and hurt the match rate.
+                        if (failedLoads <= MAX_LOAD_RETRIES && !retryScheduled) {
+                            retryScheduled = true
+                            val delayMs = RETRY_BASE_MS shl (failedLoads - 1)
+                            main.postDelayed({
+                                retryScheduled = false
+                                preload(force = true)
+                            }, delayMs)
+                        }
                     }
                 }
             )

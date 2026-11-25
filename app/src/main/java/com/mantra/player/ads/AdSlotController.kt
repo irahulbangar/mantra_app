@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageButton
@@ -23,6 +24,8 @@ import androidx.media3.ui.PlayerView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.VideoOptions
 import com.google.android.gms.ads.nativead.MediaView
@@ -57,6 +60,12 @@ class AdSlotController(
     private var nextAdvanceAtMs = 0L
     private var resumed = false
     private var released = false
+    private var started = false
+    private var requestInFlight = false
+    private var requestStartedAtMs = 0L
+    private var nativeLoadedAtMs = 0L
+    private var loadWatchdog: Runnable? = null
+    private var bannerView: AdView? = null
 
     private val advanceRunnable = Runnable { advance() }
 
@@ -82,6 +91,7 @@ class AdSlotController(
         }
     }
 
+    /** Safe to call repeatedly (onCreate / onStart / ads-visibility refresh): only the first call loads. */
     fun start() {
         if (!AdsManager.adsEnabled(activity)) {
             clear()
@@ -89,18 +99,31 @@ class AdSlotController(
             return
         }
         config = RemoteAdConfigRepository.current(activity)
-        advance()
+        val firstStart = !started
+        started = true
+        if (firstStart || (nativeAd == null && !showingHouse && !requestInFlight)) {
+            advance()
+        }
         fetchConfig()
     }
 
     fun onResume() {
         resumed = true
         housePlayer?.play()
-        // Returning from background/app-open often leaves an empty slot — reload immediately.
-        if (nativeAd == null && !showingHouse) {
-            advance()
-        } else if (nextAdvanceAtMs != 0L) {
-            postAdvance((nextAdvanceAtMs - System.currentTimeMillis()).coerceAtLeast(0L))
+        bannerView?.resume()
+        val now = System.currentTimeMillis()
+        val inFlight = requestInFlight && now - requestStartedAtMs < LOAD_TIMEOUT_MS
+        val adExpired = nativeAd != null && now - nativeLoadedAtMs >= NATIVE_AD_MAX_AGE_MS
+        when {
+            // A request is on its way; its result schedules the next refresh.
+            inFlight -> Unit
+            // Returning from background/app-open often leaves an empty slot: reload immediately.
+            nativeAd == null && !showingHouse -> advance()
+            // Native ads expire after about an hour; never keep a stale one on screen.
+            adExpired -> advance()
+            // No refresh was ever scheduled (e.g. the last request was lost while we were away).
+            nextAdvanceAtMs == 0L -> advance()
+            else -> postAdvance((nextAdvanceAtMs - now).coerceAtLeast(0L))
         }
         schedulePoll()
     }
@@ -110,6 +133,7 @@ class AdSlotController(
         handler.removeCallbacks(advanceRunnable)
         handler.removeCallbacks(configPoll)
         housePlayer?.pause()
+        bannerView?.pause()
     }
 
     fun release() {
@@ -136,6 +160,7 @@ class AdSlotController(
             return
         }
         slotVersion++
+        cancelLoadWatchdog()
         handler.removeCallbacks(advanceRunnable)
         nextAdvanceAtMs = 0L
         when (config.mode) {
@@ -193,25 +218,22 @@ class AdSlotController(
                     if (stale() || activity.isDestroyed) {
                         ad.destroy()
                     } else {
+                        cancelLoadWatchdog()
                         failedAttempts = 0
                         showNative(ad)
                         scheduleAdvance(nextCheck(refreshSeconds))
                     }
                 }
                 .withAdListener(object : AdListener() {
+                    override fun onAdImpression() {
+                        Log.i(TAG, "native ad impression")
+                    }
+
                     override fun onAdFailedToLoad(error: LoadAdError) {
                         Log.w(TAG, "native ad failed: ${error.code} ${error.message}")
                         if (stale()) return
-                        if (nativeAd == null) {
-                            showPlaceholder()
-                            // Empty slot: retry sooner, 10s, 20s, 40s, then the refresh interval.
-                            val retry = (RETRY_BASE_SECONDS shl failedAttempts.coerceAtMost(2))
-                                .coerceAtMost(refreshSeconds)
-                            failedAttempts++
-                            scheduleAdvance(nextCheck(retry))
-                        } else {
-                            scheduleAdvance(nextCheck(refreshSeconds))
-                        }
+                        cancelLoadWatchdog()
+                        onNativeUnavailable(version, houseCheckSeconds)
                     }
                 })
                 .withNativeAdOptions(
@@ -221,13 +243,108 @@ class AdSlotController(
                         .build()
                 )
                 .build()
+            armLoadWatchdog(version, houseCheckSeconds)
             loader.loadAd(AdRequest.Builder().build())
         }
+    }
+
+    /**
+     * An ad request can get lost (app backgrounded, network switching). Without this, the slot would
+     * wait forever for a callback and never retry until the app is restarted.
+     */
+    private fun armLoadWatchdog(version: Int, houseCheckSeconds: Int?) {
+        cancelLoadWatchdog()
+        requestInFlight = true
+        requestStartedAtMs = System.currentTimeMillis()
+        val watchdog = Runnable {
+            if (released || version != slotVersion || !requestInFlight) return@Runnable
+            requestInFlight = false
+            Log.w(TAG, "native ad request timed out, retrying")
+            onNativeUnavailable(version, houseCheckSeconds)
+        }
+        loadWatchdog = watchdog
+        handler.postDelayed(watchdog, LOAD_TIMEOUT_MS)
+    }
+
+    /**
+     * The native request returned nothing (no fill / lost). Keep whatever is already on screen; otherwise
+     * fill the slot with a banner (much deeper demand than native) and try native again next cycle.
+     */
+    private fun onNativeUnavailable(version: Int, houseCheckSeconds: Int?) {
+        fun nextCheck(seconds: Int) = minOf(seconds, houseCheckSeconds ?: seconds)
+        if (nativeAd != null || bannerView != null) {
+            scheduleAdvance(nextCheck(refreshSeconds))
+            return
+        }
+        if (BuildConfig.ADMOB_BANNER_ID.isNotBlank()) {
+            loadBannerFallback(version)
+            scheduleAdvance(nextCheck(refreshSeconds))
+            return
+        }
+        showPlaceholder()
+        // Empty slot: retry sooner, 10s, 20s, 40s, then the refresh interval.
+        val retry = (RETRY_BASE_SECONDS shl failedAttempts.coerceAtMost(3)).coerceAtMost(refreshSeconds)
+        failedAttempts++
+        scheduleAdvance(nextCheck(retry))
+    }
+
+    private fun loadBannerFallback(version: Int) {
+        if (released) return
+        showPlaceholder()
+        val density = activity.resources.displayMetrics.density
+        val widthDp = (container.width / density).toInt()
+        val heightDp = (container.height / density).toInt()
+        val size = if (widthDp > 0 && heightDp > 0) {
+            AdSize.getInlineAdaptiveBannerAdSize(widthDp, heightDp)
+        } else {
+            AdSize.LARGE_BANNER
+        }
+        val view = AdView(activity)
+        view.adUnitId = BuildConfig.ADMOB_BANNER_ID
+        view.setAdSize(size)
+        view.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                if (released || version != slotVersion || activity.isDestroyed) {
+                    view.destroy()
+                    return
+                }
+                Log.i(TAG, "banner fallback loaded")
+                clear()
+                bannerView = view
+                container.addView(
+                    view,
+                    FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.WRAP_CONTENT,
+                        FrameLayout.LayoutParams.WRAP_CONTENT,
+                        Gravity.CENTER
+                    )
+                )
+                placeholder.isVisible = false
+                if (resumed) view.resume() else view.pause()
+            }
+
+            override fun onAdFailedToLoad(error: LoadAdError) {
+                Log.w(TAG, "banner fallback failed: ${error.code} ${error.message}")
+                view.destroy()
+            }
+
+            override fun onAdImpression() {
+                Log.i(TAG, "banner fallback impression")
+            }
+        }
+        view.loadAd(AdRequest.Builder().build())
+    }
+
+    private fun cancelLoadWatchdog() {
+        loadWatchdog?.let(handler::removeCallbacks)
+        loadWatchdog = null
+        requestInFlight = false
     }
 
     private fun showNative(ad: NativeAd) {
         clear()
         nativeAd = ad
+        nativeLoadedAtMs = System.currentTimeMillis()
         val view = activity.layoutInflater.inflate(nativeLayoutRes, container, false) as NativeAdView
         val headline = view.findViewById<TextView>(R.id.ad_headline)
         val body = view.findViewById<TextView>(R.id.ad_body)
@@ -341,6 +458,8 @@ class AdSlotController(
 
     private fun clear() {
         container.removeAllViews()
+        bannerView?.destroy()
+        bannerView = null
         nativeAd?.destroy()
         nativeAd = null
         housePlayer?.release()
@@ -376,5 +495,8 @@ class AdSlotController(
         private const val TAG = "AdSlot"
         private const val MIN_REFRESH_SECONDS = 60
         private const val RETRY_BASE_SECONDS = 10
+        private const val LOAD_TIMEOUT_MS = 20_000L
+        /** AdMob native ads are only valid for about an hour after loading. */
+        private const val NATIVE_AD_MAX_AGE_MS = 45 * 60 * 1000L
     }
 }

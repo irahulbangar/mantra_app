@@ -18,7 +18,6 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
-import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.mantra.player.ads.AdSlotController
 import com.mantra.player.ads.AdsManager
 import com.mantra.player.ads.AppOpenAds
@@ -101,8 +100,8 @@ class NightstandActivity : AppCompatActivity() {
             activity = this,
             container = binding.adContainer,
             placeholder = binding.adPlaceholder,
-            nativeLayoutRes = R.layout.ad_native_landscape,
-            mediaAspectRatio = NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_LANDSCAPE
+            // Any aspect ratio (not landscape-only): more eligible ads, so better fill.
+            nativeLayoutRes = R.layout.ad_native_landscape
         ) { visible ->
             binding.adSection.isVisible = AdsManager.adsEnabled(this) && visible
         }

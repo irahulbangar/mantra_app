@@ -9,6 +9,7 @@ val testAdmobAppId = "ca-app-pub-3940256099942544~3347511713"
 val testAdmobNativeId = "ca-app-pub-3940256099942544/1044960115"
 val testAdmobInterstitialId = "ca-app-pub-3940256099942544/1033173712"
 val testAdmobAppOpenId = "ca-app-pub-3940256099942544/9257395921"
+val testAdmobBannerId = "ca-app-pub-3940256099942544/9214589741"
 
 fun gradleProp(name: String, fallback: String): String =
     (project.findProperty(name) as String?)?.takeIf { it.isNotBlank() } ?: fallback
@@ -37,13 +38,15 @@ android {
         applicationId = "com.mantra.player"
         minSdk = 26
         targetSdk = 36
-        versionCode = 25
-        versionName = "1.2.5"
+        versionCode = 26
+        versionName = "1.2.6"
 
         manifestPlaceholders["admobAppId"] = gradleProp("ADMOB_APP_ID", testAdmobAppId)
         buildConfigField("String", "ADMOB_NATIVE_ID", "\"${gradleProp("ADMOB_NATIVE_ID", testAdmobNativeId)}\"")
         buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"${gradleProp("ADMOB_INTERSTITIAL_ID", "")}\"")
         buildConfigField("String", "ADMOB_APP_OPEN_ID", "\"${gradleProp("ADMOB_APP_OPEN_ID", "")}\"")
+        // Optional banner shown when the native ad has no fill. Blank = fallback disabled.
+        buildConfigField("String", "ADMOB_BANNER_ID", "\"${gradleProp("ADMOB_BANNER_ID", "")}\"")
         buildConfigField("String", "REMOTE_AD_CONFIG_URL", "\"${gradleProp("REMOTE_AD_CONFIG_URL", "")}\"")
         buildConfigField(
             "String",
@@ -59,6 +62,7 @@ android {
             buildConfigField("String", "ADMOB_NATIVE_ID", "\"$testAdmobNativeId\"")
             buildConfigField("String", "ADMOB_INTERSTITIAL_ID", "\"$testAdmobInterstitialId\"")
             buildConfigField("String", "ADMOB_APP_OPEN_ID", "\"$testAdmobAppOpenId\"")
+            buildConfigField("String", "ADMOB_BANNER_ID", "\"$testAdmobBannerId\"")
         }
         release {
             signingConfig = signingConfigs.findByName("release")
