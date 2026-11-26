@@ -45,78 +45,102 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.15"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingStart="8dp"
-            android:paddingEnd="4dp">
+            android:paddingHorizontal="8dp">
 
+            <!-- Every item in this column shares one centre line (center_horizontal),
+                 so the time, date, status and Exit button line up on the same axis.
+                 The clock takes the leftover height and auto-shrinks, so on short
+                 phones the date, status and Exit button are never pushed off screen.
+                 Other sizes come from values/-h340dp/-h380dp nightstand_dimens.xml. -->
             <TextView
                 android:id="@+id/clockText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
+                android:gravity="center"
                 android:includeFontPadding="false"
-                android:letterSpacing="0.02"
+                android:maxLines="1"
+                android:textAlignment="center"
                 android:textColor="@color/cream"
-                android:textSize="96sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="@dimen/ns_clock_max"
+                app:autoSizeMinTextSize="28sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
             <TextView
                 android:id="@+id/dateText"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/ns_date_margin"
                 android:gravity="center"
+                android:maxLines="1"
+                android:textAlignment="center"
                 android:textColor="@color/cream"
-                android:textSize="24sp"
+                android:textSize="@dimen/ns_date_size"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/chargingStatus"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/ns_status_margin"
                 android:gravity="center"
+                android:maxLines="1"
+                android:textAlignment="center"
                 android:textColor="@color/brand"
-                android:textSize="20sp"
+                android:textSize="@dimen/ns_status_size"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/mantraLabel"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/ns_label_margin"
                 android:ellipsize="end"
                 android:gravity="center"
-                android:maxLines="2"
+                android:maxLines="1"
+                android:textAlignment="center"
                 android:textColor="@color/cream"
-                android:textSize="18sp"
+                android:textSize="@dimen/ns_label_size"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/sleepRemaining"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/ns_label_margin"
                 android:gravity="center"
+                android:maxLines="1"
+                android:textAlignment="center"
                 android:textColor="@color/cream"
-                android:textSize="16sp"
+                android:textSize="@dimen/ns_label_size"
                 android:textStyle="bold"
                 android:visibility="gone" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/exitButton"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginTop="12dp"
+                android:layout_height="@dimen/ns_exit_height"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/ns_exit_margin"
                 android:background="@drawable/btn_outline_bg"
-                android:minWidth="160dp"
-                android:minHeight="48dp"
-                android:paddingHorizontal="28dp"
+                android:minWidth="@dimen/ns_exit_min_width"
+                android:minHeight="0dp"
+                android:paddingHorizontal="@dimen/ns_exit_pad"
+                android:paddingVertical="0dp"
                 android:text="@string/exit"
                 android:textAllCaps="false"
                 android:textColor="@color/cream"
-                android:textSize="16sp"
+                android:textSize="@dimen/ns_exit_text"
                 android:textStyle="bold"
                 app:backgroundTint="@null" />
         </LinearLayout>

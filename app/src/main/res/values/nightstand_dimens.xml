@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Table Clock sizes for SHORT landscape screens (< 340dp tall). Taller tiers override these. -->
+<resources>
+    <dimen name="ns_clock_max">64sp</dimen>
+    <dimen name="ns_date_size">16sp</dimen>
+    <dimen name="ns_status_size">14sp</dimen>
+    <dimen name="ns_label_size">12sp</dimen>
+    <dimen name="ns_exit_text">14sp</dimen>
+    <dimen name="ns_date_margin">0dp</dimen>
+    <dimen name="ns_status_margin">2dp</dimen>
+    <dimen name="ns_label_margin">2dp</dimen>
+    <dimen name="ns_exit_margin">6dp</dimen>
+    <dimen name="ns_exit_height">36dp</dimen>
+    <dimen name="ns_exit_min_width">140dp</dimen>
+    <dimen name="ns_exit_pad">20dp</dimen>
+</resources>
